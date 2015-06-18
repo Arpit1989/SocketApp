@@ -1,12 +1,19 @@
 {
-  "name": "socket.io-chat",
-  "version": "0.0.0",
-  "description": "A simple chat client using socket.io",
+  "name": "Virtual Girl",
+  "version": "0.0.1",
+  "description": "Multi Room Chat",
   "main": "index.js",
-  "author": "Grant Timmerman",
+  "author": "Arpit Kulshrestha",
   "private": true,
   "license": "BSD",
   "dependencies": {
     "express": "3.4.8"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["Chat","MultiRoom"],
+  "engines": {
+    "node": "0.10.x"
   }
 }
