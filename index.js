@@ -2,27 +2,14 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-var io = require('../..')(server);
-var port = process.env.PORT || 5000;
+var io = require('socket.io')(server);
+var port = process.env.PORT || 3001;
+var cors = require('cors');
+
+app.use(cors());
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
-});
-
-app.configure('development', function() {
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure('production', function() {
-    app.use(express.errorHandler());
-});
-
-// Heroku won't actually allow us to use WebSockets
-// so we have to setup polling instead.
-// https://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
-io.configure(function () {
-    io.set("transports", ["xhr-polling"]);
-    io.set("polling duration", 10);
 });
 
 // Routing

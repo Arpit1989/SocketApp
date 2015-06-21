@@ -12,11 +12,14 @@ $(function() {
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
-
+  var $myInput = $('.myInput');
   var $roomName = $('.roomnameInput'); //RoomName
+  var $iframe = $('#sc-widget')[0];
 
+  var widget = SC.Widget($iframe);
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
+
 
   // Prompt for setting a username
   var username;
@@ -24,9 +27,61 @@ $(function() {
   var typing = false;
   var lastTypingTime;
   var $currentInput ;
-
+  var virtual_girl = 'Samantha';
   var socket = io();
 
+
+  $myInput.change(function(){
+       $.ajax({
+          url: "http://localhost:3000",
+          crossDomain: true,
+          data: {ques: $myInput.val()}
+      })
+      .done(function( msg ) {
+              console.log(msg);
+              var vMessage = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
+              if (vMessage == "error"){
+                  var message = $myInput.val();
+                  if (message.match(/amaze me/i) != null){
+                      if ((message.match(/amaze me/i) !== 'undefined') && (message.match(/amaze me/i).length > 0 )) {
+                          widget.setVolume(100);
+                          widget.play();
+                      }
+                  } else if (message.match(/play some music/i) != null){
+                      if ((message.match(/play some music/i) !== 'undefined') && (message.match(/play some music/i).length > 0 )) {
+                          widget.setVolume(100);
+                          widget.play();
+                      }
+                  } else if (message.match(/play next/i) != null){
+                      if ((message.match(/play next/i) !== 'undefined') && (message.match(/play next/i).length > 0 )) {
+                          widget.setVolume(100);
+                          widget.next();
+                      }
+                  } else if (message.match(/play previous/i) != null){
+                      if ((message.match(/play previous/i) !== 'undefined') && (message.match(/play previous/i).length > 0 )) {
+                          widget.setVolume(100);
+                          widget.prev();
+                      }
+                  } else if (message.match(/pause/i) != null){
+                      if ((message.match(/pause/i) !== 'undefined') && (message.match(/pause/i).length > 0 )) {
+                          widget.setVolume(100);
+                          widget.pause();
+                      }
+                  }
+              } else {
+                  addChatMessage({
+                      username: virtual_girl,
+                      message: vMessage
+                  })
+              }
+      });
+
+
+      addChatMessage({
+         username: $usernameInput.val().trim(),
+         message: $myInput.val()
+     })
+  });
   function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {
@@ -64,6 +119,50 @@ $(function() {
     // if there is a non-empty message and a socket connection
     if (message && connected) {
       $inputMessage.val('');
+
+      if (message.match(/@/g) != null){
+        if ((typeof message.match(/@/g) !== 'undefined') && (message.match(/@/g).length > 0)) {
+          $.ajax({
+              url: "http://localhost:3000",
+              crossDomain: true,
+              data: { ques: message.replace("@", "")}
+          })
+              .done(function( msg ) {
+                  console.log(msg);
+                  var val = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
+                  addChatMessage({
+                      username: virtual_girl,
+                      message: val
+                  })
+          });
+        }
+      } else if (message.match(/amaze me/i) != null){
+          if ((message.match(/amaze me/i) !== 'undefined') && (message.match(/amaze me/i).length > 0 )) {
+
+              widget.setVolume(100);
+              widget.play();
+          }
+      } else if (message.match(/play some music/i) != null){
+          if ((message.match(/play some music/i) !== 'undefined') && (message.match(/play some music/i).length > 0 )) {
+              widget.setVolume(100);
+              widget.play();
+          }
+      } else if (message.match(/play next/i) != null){
+          if ((message.match(/play next/i) !== 'undefined') && (message.match(/play next/i).length > 0 )) {
+              widget.setVolume(100);
+              widget.next();
+          }
+      } else if (message.match(/play previous/i) != null){
+          if ((message.match(/play previous/i) !== 'undefined') && (message.match(/play previous/i).length > 0 )) {
+              widget.setVolume(100);
+              widget.prev();
+          }
+      } else if (message.match(/pause/i) != null){
+          if ((message.match(/pause/i) !== 'undefined') && (message.match(/pause/i).length > 0 )) {
+              widget.setVolume(100);
+              widget.pause();
+          }
+      }
       addChatMessage({
         username: username,
         message: message
@@ -88,7 +187,16 @@ $(function() {
       options.fade = false;
       $typingMessages.remove();
     }
-
+    if (data.username == virtual_girl){
+        responsiveVoice.speak(String(data.message));
+        var widgetIframe = document.getElementById('sc-widget'),
+            widget = SC.Widget(widgetIframe);
+        if(responsiveVoice.isPlaying()) {
+            widget.setVolume(0.25);
+        }else{
+            widget.setVolume(100);
+        }
+    }
     var $usernameDiv = $('<span class="username"/>')
       .text(data.username)
       .css('color', getUsernameColor(data.username));
@@ -220,7 +328,7 @@ $(function() {
 
   // Focus input when clicking anywhere on login page
   $loginPage.click(function () {
-    $currentInput.focus();
+    //$currentInput.focus();
   });
 
   // Focus input when clicking on the message input's border
