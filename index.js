@@ -5,7 +5,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3001;
 var cors = require('cors');
-
+var request = require('request');
 app.use(cors());
 
 server.listen(port, function () {
@@ -38,11 +38,36 @@ app.get('/:id',function(req,res){
         // when the client emits 'new message', this listens and executes
         socket.on('new message', function (data,room) {
             // we tell the client to execute 'new message'
-            socket.broadcast.in(socket.room).emit('new message', {
-                username: socket.username,
-                message: data,
-                room: socket.room
-            });
+            if (typeof data != "string"){
+                if (data.youtube == true){
+                    console.log(data);
+                    query = data.message;
+                    console.log(query);
+                    url = "https://www.googleapis.com/youtube/v3/search?part=snippet&&order_by=rating&&q=" +query + "&&type=video&key=AIzaSyDRpnBif-8GCtc4E5DOcLXe2aDBVsdY6BQ";
+                    console.log(url);
+
+                    request(url, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            body = JSON.parse(body);
+                            socket.broadcast.in(socket.room).emit('new message', {
+                                username: socket.username,
+                                message: data,
+                                room: socket.room,
+                                youtube:true,
+                                videoId: body.items[0]["id"].videoId
+                            });
+                        }
+                    })
+                }
+            } else {
+                socket.broadcast.in(socket.room).emit('new message', {
+                    username: socket.username,
+                    message: data,
+                    room: socket.room,
+                    videoId: '',
+                    youtube: false
+                });
+            }
         });
 
         // when the client emits 'add user', this listens and executes

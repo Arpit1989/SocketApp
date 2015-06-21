@@ -111,6 +111,52 @@ $(function() {
     }
   }
 
+   function ask_sam(message){
+       if (message.match(/@/g) != null){
+           if ((typeof message.match(/@/g) !== 'undefined') && (message.match(/@/g).length > 0)) {
+               $.ajax({
+                   url: "http://localhost:3000",
+                   crossDomain: true,
+                   data: { ques: message.replace("@", "")}
+               })
+                   .done(function( msg ) {
+                       console.log(msg);
+                       var val = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
+                       addChatMessage({
+                           username: virtual_girl,
+                           message: val
+                       })
+                   });
+           }
+       } else if (message.match(/amaze me/i) != null){
+           if ((message.match(/amaze me/i) !== 'undefined') && (message.match(/amaze me/i).length > 0 )) {
+
+               widget.setVolume(100);
+               widget.play();
+           }
+       } else if (message.match(/play some music/i) != null){
+           if ((message.match(/play some music/i) !== 'undefined') && (message.match(/play some music/i).length > 0 )) {
+               widget.setVolume(100);
+               widget.play();
+           }
+       } else if (message.match(/play next/i) != null){
+           if ((message.match(/play next/i) !== 'undefined') && (message.match(/play next/i).length > 0 )) {
+               widget.setVolume(100);
+               widget.next();
+           }
+       } else if (message.match(/play previous/i) != null){
+           if ((message.match(/play previous/i) !== 'undefined') && (message.match(/play previous/i).length > 0 )) {
+               widget.setVolume(100);
+               widget.prev();
+           }
+       } else if (message.match(/pause/i) != null){
+           if ((message.match(/pause/i) !== 'undefined') && (message.match(/pause/i).length > 0 )) {
+               widget.setVolume(100);
+               widget.pause();
+           }
+       }
+
+   }
   // Sends a chat message
   function sendMessage () {
     var message = $inputMessage.val();
@@ -119,56 +165,33 @@ $(function() {
     // if there is a non-empty message and a socket connection
     if (message && connected) {
       $inputMessage.val('');
-
-      if (message.match(/@/g) != null){
-        if ((typeof message.match(/@/g) !== 'undefined') && (message.match(/@/g).length > 0)) {
+      if (message.match(/\*/g) != null){
+          query = message.replace("*","");
+          console.log(query);
+          var url = "https://www.googleapis.com/youtube/v3/search?part=snippet&&order_by=rating&&q="+query+"&&type=video&key=AIzaSyDRpnBif-8GCtc4E5DOcLXe2aDBVsdY6BQ";
+          console.log(url);
           $.ajax({
-              url: "http://localhost:3000",
-              crossDomain: true,
-              data: { ques: message.replace("@", "")}
+              url: url,
+              crossDomain: true
           })
-              .done(function( msg ) {
-                  console.log(msg);
-                  var val = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
-                  addChatMessage({
-                      username: virtual_girl,
-                      message: val
-                  })
+          .done(function( msg ) {
+              addChatMessage({
+                   username: username,
+                   youtube: true,
+                   videoId: msg.items[0].id.videoId
+              });
           });
-        }
-      } else if (message.match(/amaze me/i) != null){
-          if ((message.match(/amaze me/i) !== 'undefined') && (message.match(/amaze me/i).length > 0 )) {
+          socket.emit('new message', { username: username ,message: query,youtube: true});
+      } else{
+          ask_sam(message);
+          addChatMessage({
+              username: username,
+              message: message
+          });
+          // tell server to execute 'new message' and send along one parameter
+          socket.emit('new message', message);
 
-              widget.setVolume(100);
-              widget.play();
-          }
-      } else if (message.match(/play some music/i) != null){
-          if ((message.match(/play some music/i) !== 'undefined') && (message.match(/play some music/i).length > 0 )) {
-              widget.setVolume(100);
-              widget.play();
-          }
-      } else if (message.match(/play next/i) != null){
-          if ((message.match(/play next/i) !== 'undefined') && (message.match(/play next/i).length > 0 )) {
-              widget.setVolume(100);
-              widget.next();
-          }
-      } else if (message.match(/play previous/i) != null){
-          if ((message.match(/play previous/i) !== 'undefined') && (message.match(/play previous/i).length > 0 )) {
-              widget.setVolume(100);
-              widget.prev();
-          }
-      } else if (message.match(/pause/i) != null){
-          if ((message.match(/pause/i) !== 'undefined') && (message.match(/pause/i).length > 0 )) {
-              widget.setVolume(100);
-              widget.pause();
-          }
       }
-      addChatMessage({
-        username: username,
-        message: message
-      });
-      // tell server to execute 'new message' and send along one parameter
-      socket.emit('new message', message);
     }
   }
 
@@ -187,29 +210,44 @@ $(function() {
       options.fade = false;
       $typingMessages.remove();
     }
-    if (data.username == virtual_girl){
-        responsiveVoice.speak(String(data.message));
-        var widgetIframe = document.getElementById('sc-widget'),
-            widget = SC.Widget(widgetIframe);
-        if(responsiveVoice.isPlaying()) {
-            widget.setVolume(0.25);
-        }else{
-            widget.setVolume(100);
+    if (data.youtube == true){
+        var src = "http://www.youtube.com/embed/"+data.videoId+"?autoplay=1";
+        var $usernameDiv = $('<span class="username"/>')
+            .text(data.username)
+            .css('color', getUsernameColor(data.username));
+        var $messageBodyDiv = $('<iframe width="420" height="315" src='+src+'></iframe>');
+        var typingClass = data.typing ? 'typing' : '';
+        var $messageDiv = $('<li class="message"/>')
+            .data('username', data.username)
+            .addClass(typingClass)
+            .append($usernameDiv, $messageBodyDiv);
+
+        addMessageElement($messageDiv, options);
+    } else {
+        if (data.username == virtual_girl){
+            responsiveVoice.speak(String(data.message));
+            var widgetIframe = document.getElementById('sc-widget'),
+                widget = SC.Widget(widgetIframe);
+            if(responsiveVoice.isPlaying()) {
+                widget.setVolume(0.25);
+            }else{
+                widget.setVolume(100);
+            }
         }
+        var $usernameDiv = $('<span class="username"/>')
+            .text(data.username)
+            .css('color', getUsernameColor(data.username));
+        var $messageBodyDiv = $('<span class="messageBody">')
+            .text(data.message);
+
+        var typingClass = data.typing ? 'typing' : '';
+        var $messageDiv = $('<li class="message"/>')
+            .data('username', data.username)
+            .addClass(typingClass)
+            .append($usernameDiv, $messageBodyDiv);
+
+        addMessageElement($messageDiv, options);
     }
-    var $usernameDiv = $('<span class="username"/>')
-      .text(data.username)
-      .css('color', getUsernameColor(data.username));
-    var $messageBodyDiv = $('<span class="messageBody">')
-      .text(data.message);
-
-    var typingClass = data.typing ? 'typing' : '';
-    var $messageDiv = $('<li class="message"/>')
-      .data('username', data.username)
-      .addClass(typingClass)
-      .append($usernameDiv, $messageBodyDiv);
-
-    addMessageElement($messageDiv, options);
   }
 
   // Adds the visual chat typing message
