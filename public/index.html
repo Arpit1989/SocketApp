@@ -1,67 +1,177 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Chat with Samantha</title>
-  <link rel="stylesheet" href="style.css">
-    <script src="/jquery-1.10.2.min.js"></script>
-    <script src="/responsivevoice.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/main.js"></script>
-    <script>//! annyang
-    //! version : 1.6.0
-    //! author  : Tal Ater @TalAter
-    //! license : MIT
-    //! https://www.TalAter.com/annyang/
-    (function(a){"use strict";var b=this,c=b.SpeechRecognition||b.webkitSpeechRecognition||b.mozSpeechRecognition||b.msSpeechRecognition||b.oSpeechRecognition;if(!c)return b.annyang=null,a;var d,e,f=[],g={start:[],error:[],end:[],result:[],resultMatch:[],resultNoMatch:[],errorNetwork:[],errorPermissionBlocked:[],errorPermissionDenied:[]},h=0,i=!1,j="font-weight: bold; color: #00f;",k=!1,l=/\s*\((.*?)\)\s*/g,m=/(\(\?:[^)]+\))\?/g,n=/(\(\?)?:\w+/g,o=/\*\w+/g,p=/[\-{}\[\]+?.,\\\^$|#]/g,q=function(a){return a=a.replace(p,"\\$&").replace(l,"(?:$1)?").replace(n,function(a,b){return b?a:"([^\\s]+)"}).replace(o,"(.*?)").replace(m,"\\s*$1?\\s*"),new RegExp("^"+a+"$","i")},r=function(a){a.forEach(function(a){a.callback.apply(a.context)})},s=function(){t()||b.annyang.init({},!1)},t=function(){return d!==a};b.annyang={init:function(l,m){m=m===a?!0:!!m,d&&d.abort&&d.abort(),d=new c,d.maxAlternatives=5,d.continuous="http:"===b.location.protocol,d.lang="en-US",d.onstart=function(){r(g.start)},d.onerror=function(a){switch(r(g.error),a.error){case"network":r(g.errorNetwork);break;case"not-allowed":case"service-not-allowed":e=!1,r((new Date).getTime()-h<200?g.errorPermissionBlocked:g.errorPermissionDenied)}},d.onend=function(){if(r(g.end),e){var a=(new Date).getTime()-h;1e3>a?setTimeout(b.annyang.start,1e3-a):b.annyang.start()}},d.onresult=function(a){if(k)return i&&b.console.log("Speech heard, but annyang is paused"),!1;r(g.result);for(var c,d=a.results[a.resultIndex],e=0;e<d.length;e++){c=d[e].transcript.trim(),i&&b.console.log("Speech recognized: %c"+c,j);for(var h=0,l=f.length;l>h;h++){var m=f[h].command.exec(c);if(m){var n=m.slice(1);return i&&(b.console.log("command matched: %c"+f[h].originalPhrase,j),n.length&&b.console.log("with parameters",n)),f[h].callback.apply(this,n),r(g.resultMatch),!0}}}return r(g.resultNoMatch),!1},m&&(f=[]),l.length&&this.addCommands(l)},start:function(c){k=!1,s(),c=c||{},e=c.autoRestart!==a?!!c.autoRestart:!0,c.continuous!==a&&(d.continuous=!!c.continuous),h=(new Date).getTime();try{d.start()}catch(f){i&&b.console.log(f.message)}},abort:function(){e=!1,t&&d.abort()},pause:function(){k=!0},resume:function(){b.annyang.start()},debug:function(a){i=arguments.length>0?!!a:!0},setLanguage:function(a){s(),d.lang=a},addCommands:function(a){var c,d;s();for(var e in a)if(a.hasOwnProperty(e)){if(c=b[a[e]]||a[e],"function"!=typeof c)continue;d=q(e),f.push({command:d,callback:c,originalPhrase:e})}i&&b.console.log("Commands successfully loaded: %c"+f.length,j)},removeCommands:function(b){return b===a?void(f=[]):(b=Array.isArray(b)?b:[b],void(f=f.filter(function(a){for(var c=0;c<b.length;c++)if(b[c]===a.originalPhrase)return!1;return!0})))},addCallback:function(c,d,e){if(g[c]!==a){var f=b[d]||d;"function"==typeof f&&g[c].push({callback:f,context:e||this})}}}}).call(this);</script>
-    <script>
-        var sendSamantha = function(term){
-            console.log(term);
-            $('.myInput').val(term);
-            $( ".myInput" ).trigger( "change" );
-        }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
 
-        if (annyang) {
-            // Let's define our first command. First the text we expect, and then the function it should call
-            var commands = {
-                'baby *term' : sendSamantha
+    <title>Template Design</title>
 
-            };
+    <!-- Bootstrap core CSS -->
 
-            // Add our commands to annyang
-            annyang.addCommands(commands);
+    <!-- Custom styles for this template -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-            // Start listening. You can call this here, or attach this call to an event, button, etc.
-            annyang.start({ autoRestart: true,continuous: true });
-        }
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
 
-    </script>
+
 </head>
 <body>
-<iframe id="sc-widget" src="https://w.soundcloud.com/player/?url=http://api.soundcloud.com/users/107767142/favorites" width="100%" height="10" scrolling="no" frameborder="no"></iframe>
-  <ul class="pages">
-    <li class="room page">
-    </li>
-    <li class="chat page">
-      <div class="chatArea">
-        <ul class="messages"></ul>
-      </div>
-      <input class="inputMessage" placeholder="Type here..."/>
-      <input class="myInput" id="myInput" hidden="true" />
-    </li>
-    <li class="login page">
-      <div class="form">
-        <h3 class="title">What's your nickname?</h3>
-        <input class="usernameInput" type="text" maxlength="14" placeholder="Press Enter" />
-        <h3 class="title">Enter the Room</h3>
-        <input class="roomnameInput" type="text" maxlength="14" placeholder="Press Enter" />
-      </div>
-    </li>
-  </ul>
+<div class="site-wrapper">
+
+    <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+            <div class="masthead clearfix">
+                <div class="inner">
+                    <h3 class="masthead-brand">Cover</h3>
+                    <nav>
+                        <ul class="nav masthead-nav">
+                            <li class="active"><a onclick="navigate(this);" href="#">Home</a></li>
+                            <li><a onclick="navigate(this);" href="#">Features</a></li>
+                            <li><a onclick="navigate(this);" href="#">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="inner cover page-1">
+                <ul class="pages">
+                    <li class="login page">
+                        <h1 class="cover-heading">Privacy</h1>
+
+                        <div class="form">
+                            <h3 class="title" style="color: khaki;">What's your nickname?</h3>
+                            <input class="usernameInput" type="text" maxlength="14" placeholder="Press Enter" />
+                            <h3 class="title" style="color: khaki;">Enter the Room</h3>
+                            <input class="roomnameInput" type="text" maxlength="14" placeholder="Press Enter" />
+                        </div>
+                    </li>
+                    <li class="chat page">
+                        <div class="chatArea">
+                            <ul class="messages"></ul>
+                        </div>
+                        <input class="inputMessage" placeholder="Type here..."/>
+                        <input class="myInput" id="myInput" hidden="true" />
+                    </li>
+                    <iframe id="sc-widget" src="https://w.soundcloud.com/player/?url=http://api.soundcloud.com/users/107767142/favorites" width="100%" height="10" scrolling="no" frameborder="no"></iframe>
+                </ul>
+
+            </div>
+
+            <div class="inner cover page-2">
+                <h1 class="cover-heading">Features </h1>
+
+            </div>
+
+            <div class="inner cover page-3">
+                <h1 class="cover-heading">Contact</h1>
+
+            </div>
+
+            <div class="mastfoot">
+                <div class="inner">
+                    <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="/responsivevoice.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/main.js"></script>
+<script>//! annyang
+//! version : 1.6.0
+//! author  : Tal Ater @TalAter
+//! license : MIT
+//! https://www.TalAter.com/annyang/
+(function(a){"use strict";var b=this,c=b.SpeechRecognition||b.webkitSpeechRecognition||b.mozSpeechRecognition||b.msSpeechRecognition||b.oSpeechRecognition;if(!c)return b.annyang=null,a;var d,e,f=[],g={start:[],error:[],end:[],result:[],resultMatch:[],resultNoMatch:[],errorNetwork:[],errorPermissionBlocked:[],errorPermissionDenied:[]},h=0,i=!1,j="font-weight: bold; color: #00f;",k=!1,l=/\s*\((.*?)\)\s*/g,m=/(\(\?:[^)]+\))\?/g,n=/(\(\?)?:\w+/g,o=/\*\w+/g,p=/[\-{}\[\]+?.,\\\^$|#]/g,q=function(a){return a=a.replace(p,"\\$&").replace(l,"(?:$1)?").replace(n,function(a,b){return b?a:"([^\\s]+)"}).replace(o,"(.*?)").replace(m,"\\s*$1?\\s*"),new RegExp("^"+a+"$","i")},r=function(a){a.forEach(function(a){a.callback.apply(a.context)})},s=function(){t()||b.annyang.init({},!1)},t=function(){return d!==a};b.annyang={init:function(l,m){m=m===a?!0:!!m,d&&d.abort&&d.abort(),d=new c,d.maxAlternatives=5,d.continuous="http:"===b.location.protocol,d.lang="en-US",d.onstart=function(){r(g.start)},d.onerror=function(a){switch(r(g.error),a.error){case"network":r(g.errorNetwork);break;case"not-allowed":case"service-not-allowed":e=!1,r((new Date).getTime()-h<200?g.errorPermissionBlocked:g.errorPermissionDenied)}},d.onend=function(){if(r(g.end),e){var a=(new Date).getTime()-h;1e3>a?setTimeout(b.annyang.start,1e3-a):b.annyang.start()}},d.onresult=function(a){if(k)return i&&b.console.log("Speech heard, but annyang is paused"),!1;r(g.result);for(var c,d=a.results[a.resultIndex],e=0;e<d.length;e++){c=d[e].transcript.trim(),i&&b.console.log("Speech recognized: %c"+c,j);for(var h=0,l=f.length;l>h;h++){var m=f[h].command.exec(c);if(m){var n=m.slice(1);return i&&(b.console.log("command matched: %c"+f[h].originalPhrase,j),n.length&&b.console.log("with parameters",n)),f[h].callback.apply(this,n),r(g.resultMatch),!0}}}return r(g.resultNoMatch),!1},m&&(f=[]),l.length&&this.addCommands(l)},start:function(c){k=!1,s(),c=c||{},e=c.autoRestart!==a?!!c.autoRestart:!0,c.continuous!==a&&(d.continuous=!!c.continuous),h=(new Date).getTime();try{d.start()}catch(f){i&&b.console.log(f.message)}},abort:function(){e=!1,t&&d.abort()},pause:function(){k=!0},resume:function(){b.annyang.start()},debug:function(a){i=arguments.length>0?!!a:!0},setLanguage:function(a){s(),d.lang=a},addCommands:function(a){var c,d;s();for(var e in a)if(a.hasOwnProperty(e)){if(c=b[a[e]]||a[e],"function"!=typeof c)continue;d=q(e),f.push({command:d,callback:c,originalPhrase:e})}i&&b.console.log("Commands successfully loaded: %c"+f.length,j)},removeCommands:function(b){return b===a?void(f=[]):(b=Array.isArray(b)?b:[b],void(f=f.filter(function(a){for(var c=0;c<b.length;c++)if(b[c]===a.originalPhrase)return!1;return!0})))},addCallback:function(c,d,e){if(g[c]!==a){var f=b[d]||d;"function"==typeof f&&g[c].push({callback:f,context:e||this})}}}}).call(this);</script>
+<script>
+
+
+    var sendSamantha = function(term){
+        console.log(term);
+        $('.myInput').val(term);
+        $( ".myInput" ).trigger( "change" );
+    }
+
+    if (annyang) {
+        // Let's define our first command. First the text we expect, and then the function it should call
+        var commands = {
+            'baby *term' : sendSamantha
+
+        };
+
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+
+        // Start listening. You can call this here, or attach this call to an event, button, etc.
+        annyang.start({ autoRestart: true,continuous: true });
+    }
+
+</script>
   <script src="/api.js" type="text/javascript"></script>
   <script type="text/javascript">
 
-      $('#sc-widget').css('visibility','hidden');
+
+      $(document).ready(function(){
+          $('#sc-widget').css('visibility','hidden');
+          var roomName = window.location.href.split("/")
+          $('.roomnameInput').val(roomName[roomName.length-1]);
+
+          // Navigation Panel
+          var $page1 = $(".page-1");
+          var $page2 = $(".page-2");
+          var $page3 = $(".page-3");
+          $page2.hide();
+          $page1.show();
+          $page3.hide();
+
+          navigate = function(nav){
+              $('.nav,.masthead-nav').find('li').each(function(index){
+                  $($('.nav,.masthead-nav').find('li')[index]).removeClass("active");
+
+              })
+              $(nav).parent().addClass("active");
+
+              if ($(nav).text() == "Features"){
+                  $page1.hide();
+                  $page2.show();
+                  $page3.hide();
+              }else if($(nav).text() == "Contact"){
+                  $page1.hide();
+                  $page3.show();
+                  $page2.hide();
+
+              } else {
+                  $page2.hide();
+                  $page1.show();
+                  $page3.hide();
+
+              }
+          }
+      });
+
+
       (function(){
 
           var widgetIframe = document.getElementById('sc-widget'),

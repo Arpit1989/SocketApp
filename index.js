@@ -20,15 +20,17 @@ app.get('/:id',function(req,res){
 
 // usernames which are currently connected to the chat
     var usernames = {};
-    var numUsers = 0;
-    var room = {};
+    var rooms = {};
+
     io.on('connection', function (socket) {
 
         socket.on('setRoom', function (roomName) {
 
             // we store the username in the socket session for this client
             socket.room = roomName;
-
+            if (rooms[socket.room] === undefined){
+                rooms[socket.room] = { name:socket.room, users:[] };
+            }
             // add the client's username to the global list
             socket.join(socket.room);
 
@@ -77,16 +79,23 @@ app.get('/:id',function(req,res){
             socket.username = username;
             // add the client's username to the global list
             usernames[username] = username;
-            ++numUsers;
+            //if room is undefined in the global room list then only create a new object.
+
+
+            if (rooms[socket.room].users === undefined){
+                rooms[socket.room] = { name:socket.room, users:[] };
+            }
+            rooms[socket.room].users.push(username);
+
             addedUser = true;
             socket.emit('login', {
-                numUsers: numUsers,
+                numUsers: rooms[socket.room].users.length,
                 room: socket.room
             });
             // echo globally (all clients) that a person has connected
-            socket.emit('user joined', {
+            socket.broadcast.in(socket.room).emit('user joined', {
                 username: socket.username,
-                numUsers: numUsers,
+                numUsers: rooms[socket.room].users.length,
                 room: socket.room
             });
         });
@@ -110,12 +119,16 @@ app.get('/:id',function(req,res){
             // remove the username from global usernames list
             if (addedUser) {
                 delete usernames[socket.username];
-                --numUsers;
-
+                var users = rooms[socket.room].users;
+                var index = users.indexOf(socket.username)
+                if (index > -1) {
+                    users.splice(index, 1);
+                }
+                rooms[socket.room].users = users;
                 // echo globally that this client has left
                 socket.broadcast.to(socket.room).emit('user left', {
                     username: socket.username,
-                    numUsers: numUsers,
+                    numUsers: rooms[socket.room].users.length,
                     room: socket.room
                 });
             }
