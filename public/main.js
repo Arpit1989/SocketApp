@@ -132,7 +132,7 @@ $(function() {
                            username: virtual_girl,
                            message: val
                        })
-                       socket.emit('new message', { username: virtual_girl ,message: val,youtube: false});
+                       socket.emit('new message', { username: virtual_girl ,message: val, youtube: false});
                    });
            }
        } else if (message.match(/amaze me/i) != null){

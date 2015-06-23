@@ -39,6 +39,7 @@ app.get('/:id',function(req,res){
         var addedUser = false;
         // when the client emits 'new message', this listens and executes
         socket.on('new message', function (data,room) {
+            console.log(data);
             // we tell the client to execute 'new message'
             if (typeof data != "string"){
                 if (data.youtube == true){
@@ -60,6 +61,15 @@ app.get('/:id',function(req,res){
                             });
                         }
                     })
+                }else if (data.username == "Samantha") {
+                    console.log(data);
+                    socket.broadcast.in(socket.room).emit('new message', {
+                        username: data.username,
+                        message: data.message,
+                        room: socket.room,
+                        videoId: '',
+                        youtube: false
+                    });
                 }
             } else {
                 socket.broadcast.in(socket.room).emit('new message', {
