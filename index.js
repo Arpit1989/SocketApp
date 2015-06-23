@@ -107,6 +107,10 @@ app.get('/:id',function(req,res){
             });
         });
 
+        socket.on("play_music",function(data){
+            socket.broadcast.to(socket.room).emit('play_music',{data: data});
+        });
+
         // when the client emits 'stop typing', we broadcast it to others
         socket.on('stop typing', function () {
             socket.broadcast.to(socket.room).emit('stop typing', {

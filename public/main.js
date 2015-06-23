@@ -44,26 +44,31 @@ $(function() {
                   var message = $myInput.val();
                   if (message.match(/amaze me/i) != null){
                       if ((message.match(/amaze me/i) !== 'undefined') && (message.match(/amaze me/i).length > 0 )) {
+                          socket.emit('play_music', {setVolume: 100,prev:false, play:true, next: false,pause:false});
                           widget.setVolume(100);
-                          widget.play();
+                          widget.skip(Math.floor((Math.random() * 56) + 1));
                       }
                   } else if (message.match(/play some music/i) != null){
                       if ((message.match(/play some music/i) !== 'undefined') && (message.match(/play some music/i).length > 0 )) {
+                          socket.emit('play_music',  {setVolume: 100,prev:false, play:true, next: false,pause:false});
                           widget.setVolume(100);
                           widget.play();
                       }
                   } else if (message.match(/play next/i) != null){
                       if ((message.match(/play next/i) !== 'undefined') && (message.match(/play next/i).length > 0 )) {
+                          socket.emit('play_music', {setVolume: 100,prev:false, play:false, next: true,pause:false});
                           widget.setVolume(100);
                           widget.next();
                       }
                   } else if (message.match(/play previous/i) != null){
                       if ((message.match(/play previous/i) !== 'undefined') && (message.match(/play previous/i).length > 0 )) {
+                          socket.emit('play_music',  {setVolume: 100,prev:true, play:false, next: false,pause:false});
                           widget.setVolume(100);
                           widget.prev();
                       }
                   } else if (message.match(/pause/i) != null){
                       if ((message.match(/pause/i) !== 'undefined') && (message.match(/pause/i).length > 0 )) {
+                          socket.emit('play_music',  {setVolume: 100,prev:false, play:false, next: false,pause:true});
                           widget.setVolume(100);
                           widget.pause();
                       }
@@ -73,6 +78,7 @@ $(function() {
                       username: virtual_girl,
                       message: vMessage
                   })
+                  socket.emit('new message', { username: virtual_girl ,message: vMessage,youtube: false});
               }
       });
 
@@ -126,31 +132,37 @@ $(function() {
                            username: virtual_girl,
                            message: val
                        })
+                       socket.emit('new message', { username: virtual_girl ,message: val,youtube: false});
                    });
            }
        } else if (message.match(/amaze me/i) != null){
            if ((message.match(/amaze me/i) !== 'undefined') && (message.match(/amaze me/i).length > 0 )) {
+               socket.emit('play_music', {setVolume: 100,prev:false, play:true, next: false,pause:false});
 
                widget.setVolume(100);
-               widget.play();
+               widget.skip(Math.floor((Math.random() * 56) + 1));
            }
        } else if (message.match(/play some music/i) != null){
            if ((message.match(/play some music/i) !== 'undefined') && (message.match(/play some music/i).length > 0 )) {
+               socket.emit('play_music',  {setVolume: 100,prev:false, play:true, next: false,pause:false});
                widget.setVolume(100);
                widget.play();
            }
        } else if (message.match(/play next/i) != null){
            if ((message.match(/play next/i) !== 'undefined') && (message.match(/play next/i).length > 0 )) {
+               socket.emit('play_music', {setVolume: 100,prev:false, play:false, next: true,pause:false});
                widget.setVolume(100);
                widget.next();
            }
        } else if (message.match(/play previous/i) != null){
            if ((message.match(/play previous/i) !== 'undefined') && (message.match(/play previous/i).length > 0 )) {
+               socket.emit('play_music',  {setVolume: 100,prev:true, play:false, next: false,pause:false});
                widget.setVolume(100);
                widget.prev();
            }
        } else if (message.match(/pause/i) != null){
            if ((message.match(/pause/i) !== 'undefined') && (message.match(/pause/i).length > 0 )) {
+               socket.emit('play_music',  {setVolume: 100,prev:false, play:false, next: false,pause:true});
                widget.setVolume(100);
                widget.pause();
            }
@@ -241,7 +253,7 @@ $(function() {
             .text(data.message);
 
         var typingClass = data.typing ? 'typing' : '';
-        var $messageDiv = $('<li class="message"/>')
+        var $messageDiv = $('<li class="message" style="text-align: left;"/>')
             .data('username', data.username)
             .addClass(typingClass)
             .append($usernameDiv, $messageBodyDiv);
@@ -387,6 +399,25 @@ $(function() {
     addParticipantsMessage(data);
   });
 
+  socket.on('play_music',function(data){
+      console.log(data);
+      if (data.play == true){
+          widget.setVolume(data.setVolume);
+          widget.play();
+      }else if (data.next == true){
+          widget.setVolume(data.setVolume);
+          widget.next();
+      }else if (data.prev == true){
+          widget.setVolume(data.setVolume);
+          widget.prev();
+      }else if (data.pause == true){
+          widget.setVolume(data.setVolume);
+          widget.pause();
+      }else{
+          widget.setVolume(data.setVolume);
+          widget.pause();
+      }
+  })
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
     addChatMessage(data);

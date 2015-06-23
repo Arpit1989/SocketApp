@@ -105,8 +105,12 @@ ul {
  /*Messages */
 
 .chatArea {
-  height: 100%;
-  padding-bottom: 60px;
+    height: 75%;
+    /* padding-bottom: 0%; */
+    /* margin-top: 0%; */
+    position: absolute;
+    bottom: 8%;
+    width: 98.5%;
 }
 
 .messages {
@@ -131,14 +135,16 @@ ul {
 /* Input */
 
 .inputMessage {
-  border: 10px solid #000;
-  height: 60px;
-  left: 0;
-  outline: none;
-  padding-left: 10px;
-  position: absolute;
-  right: 0;
-  width: 100%;
+    border: 0.5em solid #000;
+    height: 4em;
+    left: 0;
+    outline: none;
+    padding-left: 10px;
+    position: fixed;
+    right: 0;
+    width: 100%;
+    bottom: 1%;
+    color: black;
 }
 /*
  * Globals
@@ -197,7 +203,7 @@ body {
 
 /* Padding for spacing */
 .inner {
-    padding: 30px;
+    padding: 10px;
 }
 
 
