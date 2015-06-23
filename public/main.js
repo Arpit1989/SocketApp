@@ -47,6 +47,7 @@ $(function() {
                           socket.emit('play_music', {setVolume: 100,prev:false, play:true, next: false,pause:false});
                           widget.setVolume(100);
                           widget.skip(Math.floor((Math.random() * 56) + 1));
+                          widget.play();
                       }
                   } else if (message.match(/play some music/i) != null){
                       if ((message.match(/play some music/i) !== 'undefined') && (message.match(/play some music/i).length > 0 )) {
@@ -141,6 +142,7 @@ $(function() {
 
                widget.setVolume(100);
                widget.skip(Math.floor((Math.random() * 56) + 1));
+               widget.play();
            }
        } else if (message.match(/play some music/i) != null){
            if ((message.match(/play some music/i) !== 'undefined') && (message.match(/play some music/i).length > 0 )) {
