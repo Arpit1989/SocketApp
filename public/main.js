@@ -231,7 +231,7 @@ $(function() {
         var $usernameDiv = $('<span class="username"/>')
             .text(data.username)
             .css('color', getUsernameColor(data.username));
-        var $messageBodyDiv = $('<iframe width="420" height="315" src='+src+'></iframe>');
+        var $messageBodyDiv = $('<iframe width="100%" height="100%" src='+src+'></iframe>');
         var typingClass = data.typing ? 'typing' : '';
         var $messageDiv = $('<li class="message"/>')
             .data('username', data.username)
@@ -253,7 +253,7 @@ $(function() {
         var $usernameDiv = $('<span class="username"/>')
             .text(data.username)
             .css('color', getUsernameColor(data.username));
-        var $messageBodyDiv = $('<span style="font-size: 1.5em" class="messageBody">')
+        var $messageBodyDiv = $('<span style="font-size: 1.1em" class="messageBody">')
             .text(data.message);
 
         var typingClass = data.typing ? 'typing' : '';
