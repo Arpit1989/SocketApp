@@ -179,7 +179,7 @@ $(function() {
     // if there is a non-empty message and a socket connection
     if (message && connected) {
       $inputMessage.val('');
-      if (message.match(/\*/g) != null){
+        if (message.match(/^\*/g) != null){
           query = message.replace("*","");
           console.log(query);
           var url = "https://www.googleapis.com/youtube/v3/search?part=snippet&&order_by=rating&&q="+query+"&&type=video&key=AIzaSyDRpnBif-8GCtc4E5DOcLXe2aDBVsdY6BQ";
@@ -196,7 +196,10 @@ $(function() {
               });
           });
           socket.emit('new message', { username: username ,message: query,youtube: true});
-      } else{
+      } else if(message.match(/f\*\*dsam/g) != null){
+          var feed_data = JSON.parse(message)["f**dsam"]
+          socket.emit('feed data', feed_data);
+      } else {
           ask_sam(message);
           addChatMessage({
               username: username,
@@ -204,7 +207,6 @@ $(function() {
           });
           // tell server to execute 'new message' and send along one parameter
           socket.emit('new message', message);
-
       }
     }
   }
@@ -251,7 +253,7 @@ $(function() {
         var $usernameDiv = $('<span class="username"/>')
             .text(data.username)
             .css('color', getUsernameColor(data.username));
-        var $messageBodyDiv = $('<span class="messageBody">')
+        var $messageBodyDiv = $('<span style="font-size: 1.5em" class="messageBody">')
             .text(data.message);
 
         var typingClass = data.typing ? 'typing' : '';

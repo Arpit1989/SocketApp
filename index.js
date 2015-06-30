@@ -12,11 +12,17 @@ server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
 
+var Redis = require('ioredis');
+var redis = new Redis();
+
+
 // Routing
 app.use(express.static(__dirname + '/public'));
 app.get('/:id',function(req,res){
     res.sendfile(__dirname + '/public/index.html');
 });
+
+
 
 // usernames which are currently connected to the chat
     var usernames = {};
@@ -38,8 +44,21 @@ app.get('/:id',function(req,res){
 
         var addedUser = false;
         // when the client emits 'new message', this listens and executes
+        socket.on('feed data',function(data){
+
+            redis.set(Object.keys(data)[0].toLowerCase(), data[Object.keys(data)[0]].toLowerCase());
+            redis.get(Object.keys(data)[0].toLowerCase(), function (err, result) {
+                console.log(result);
+            });
+
+            socket.broadcast.in(socket.room).emit('new message', {
+                username: socket.username,
+                data: Object.keys(data)[0] + "added "
+            });
+        });
+
         socket.on('new message', function (data,room) {
-            console.log(data);
+
             // we tell the client to execute 'new message'
             if (typeof data != "string"){
                 if (data.youtube == true){

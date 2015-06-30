@@ -96,10 +96,10 @@ ul {
 }
 
 .log {
-  color: gray;
-  font-size: 70%;
-  margin: 5px;
-  text-align: center;
+    color: rgb(210, 205, 205);
+    font-size: 1em;
+    margin: 0.1em;
+    text-align: center;
 }
 
  /*Messages */
@@ -130,6 +130,7 @@ ul {
   overflow: hidden;
   padding-right: 15px;
   text-align: right;
+  font-size: 1.5em;
 }
 
 /* Input */
