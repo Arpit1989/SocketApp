@@ -132,7 +132,7 @@ $(function() {
                    crossDomain: true,
                    data: { ques: message.replace("@", "")},
                    success: (function( msg ) {
-                       var msgs = JSON.parse(msg);
+                       var msgs = msg;
                        var val = msgs.say[Object.getOwnPropertyNames(msgs.say)[0]];
                        addChatMessage({
                            username: virtual_girl,
