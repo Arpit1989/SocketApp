@@ -7,8 +7,8 @@ $(function() {
     '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
   ];
   // Initialize varibles
-  var $server = "http://52.10.37.93:3000";
-  //var $server = "http://localhost:3000";
+  //var $server = "http://52.10.37.93:3000";
+  var $server = "http://localhost:3000";
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
@@ -36,12 +36,12 @@ $(function() {
        $.ajax({
           url: $server,
           dataType: 'jsonp',
+          jsonpCallback: 'jsonCallback',
           crossDomain: true,
           data: {ques: $myInput.val()},
           success: (function( msg ) {
               console.log(msg);
               var vMessage = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
-
               if (vMessage == "error"){
                   var message = $myInput.val();
                   if (message.match(/amaze me/i) != null){
@@ -128,10 +128,12 @@ $(function() {
                $.ajax({
                    url: $server,
                    dataType: 'jsonp',
+                   jsonpCallback: 'jsonCallback',
                    crossDomain: true,
                    data: { ques: message.replace("@", "")},
                    success: (function( msg ) {
-                       var val = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
+                       var msgs = JSON.parse(msg);
+                       var val = msgs.say[Object.getOwnPropertyNames(msgs.say)[0]];
                        addChatMessage({
                            username: virtual_girl,
                            message: val
