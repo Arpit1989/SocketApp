@@ -6,8 +6,9 @@ $(function() {
     '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
     '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
   ];
-
   // Initialize varibles
+  var $server = "http://52.10.37.93:3000";
+  //var $server = "http://localhost:3000";
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
@@ -33,13 +34,14 @@ $(function() {
 
   $myInput.change(function(){
        $.ajax({
-          url: "http://localhost:3000",
+          url: $server,
+          dataType: 'jsonp',
           crossDomain: true,
-          data: {ques: $myInput.val()}
-      })
-      .done(function( msg ) {
+          data: {ques: $myInput.val()},
+          success: (function( msg ) {
               console.log(msg);
               var vMessage = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
+
               if (vMessage == "error"){
                   var message = $myInput.val();
                   if (message.match(/amaze me/i) != null){
@@ -81,7 +83,9 @@ $(function() {
                   })
                   socket.emit('new message', { username: virtual_girl ,message: vMessage,youtube: false});
               }
-      });
+          })
+       });
+
 
 
       addChatMessage({
@@ -122,19 +126,19 @@ $(function() {
        if (message.match(/@/g) != null){
            if ((typeof message.match(/@/g) !== 'undefined') && (message.match(/@/g).length > 0)) {
                $.ajax({
-                   url: "http://localhost:3000",
+                   url: $server,
+                   dataType: 'jsonp',
                    crossDomain: true,
-                   data: { ques: message.replace("@", "")}
-               })
-                   .done(function( msg ) {
-                       console.log(msg);
+                   data: { ques: message.replace("@", "")},
+                   success: (function( msg ) {
                        var val = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
                        addChatMessage({
                            username: virtual_girl,
                            message: val
                        })
                        socket.emit('new message', { username: virtual_girl ,message: val, youtube: false});
-                   });
+                   })
+                });
            }
        } else if (message.match(/amaze me/i) != null){
            if ((message.match(/amaze me/i) !== 'undefined') && (message.match(/amaze me/i).length > 0 )) {
@@ -241,7 +245,8 @@ $(function() {
         addMessageElement($messageDiv, options);
     } else {
         if (data.username == virtual_girl){
-            responsiveVoice.speak(String(data.message));
+
+            responsiveVoice.speak(String(data.message.trim()));
             var widgetIframe = document.getElementById('sc-widget'),
                 widget = SC.Widget(widgetIframe);
             if(responsiveVoice.isPlaying()) {
