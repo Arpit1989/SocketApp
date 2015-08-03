@@ -80,7 +80,7 @@ app.get('/:id',function(req,res){
                             });
                         }
                     })
-                }else if (data.username == "Samantha") {
+                }else if (data.username == "Jasmine") {
                     console.log(data);
                     socket.broadcast.in(socket.room).emit('new message', {
                         username: data.username,

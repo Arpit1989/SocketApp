@@ -7,8 +7,8 @@ $(function() {
     '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
   ];
   // Initialize varibles
-  //var $server = "http://52.10.37.93:3000";
-  var $server = "http://localhost:3000";
+  var $server = "http://52.10.37.93:3000";
+  //var $server = "http://localhost:3000";
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
@@ -28,7 +28,7 @@ $(function() {
   var typing = false;
   var lastTypingTime;
   var $currentInput ;
-  var virtual_girl = 'Samantha';
+  var virtual_girl = 'Jasmine';
   var socket = io();
 
 
@@ -41,7 +41,13 @@ $(function() {
           data: {ques: $myInput.val()},
           success: (function( msg ) {
               console.log(msg);
-              var vMessage = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
+              var msgs = msg;
+              if (typeof msgs.say == "string"){
+                  var vMessage = msg.say
+              }else{
+                  var vMessage = msg.say[Object.getOwnPropertyNames(msg.say)[0]];
+              }
+
               if (vMessage == "error"){
                   var message = $myInput.val();
                   if (message.match(/amaze me/i) != null){
@@ -77,6 +83,7 @@ $(function() {
                       }
                   }
               } else {
+
                   addChatMessage({
                       username: virtual_girl,
                       message: vMessage
@@ -133,7 +140,11 @@ $(function() {
                    data: { ques: message.replace("@", "")},
                    success: (function( msg ) {
                        var msgs = msg;
-                       var val = msgs.say[Object.getOwnPropertyNames(msgs.say)[0]];
+                       if (typeof msgs.say == "string"){
+                           var val = msg.say
+                       }else{
+                           var val = msgs.say[Object.getOwnPropertyNames(msgs.say)[0]];
+                       }
                        addChatMessage({
                            username: virtual_girl,
                            message: val
