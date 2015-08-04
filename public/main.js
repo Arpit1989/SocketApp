@@ -28,7 +28,7 @@ $(function() {
   var typing = false;
   var lastTypingTime;
   var $currentInput ;
-  var virtual_girl = 'Jasmine';
+  var virtual_girl = 'Jazmine';
   var socket = io();
 
 
