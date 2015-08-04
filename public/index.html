@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="#">
 
-    <title>Jasmine</title>
+    <title>Jazmine</title>
 
     <!-- Bootstrap core CSS -->
 
@@ -29,7 +29,7 @@
     <div class="cover-container">
             <div class="masthead clearfix">
                 <div class="inner">
-                    <h3 class="masthead-brand" style="background-color: #333333">Jasmine<image src="Jazmine_head.png" style="width: 2.0em"></image></h3>
+                    <h3 class="masthead-brand" style="background-color: #333333">Jazmine<image src="Jazmine_head.png" style="width: 2.0em"></image></h3>
                     <nav>
                         <ul class="nav masthead-nav">
                             <li class="active"><a onclick="navigate(this);" href="#">Home</a></li>
@@ -66,7 +66,7 @@
             <div class="inner cover page-2">
                 <h1 class="cover-heading">Features </h1>
                 <ul style="text-align: justify;position: absolute;top:8em;left:6em;">
-                    <li><h3 style="color: cornflowerblue"> Ask Jasmine Anything like @who is Spider Man , @where is Panama Canal or @what is time dilation</h3></li>
+                    <li><h3 style="color: cornflowerblue"> Ask Jazmine Anything like @who is Spider Man , @where is Panama Canal or @what is time dilation</h3></li>
                     <li><h3 style="color: tomato"> By enabling the microPhone , say "Baby what is gum bacteria" or "Baby who are romans"</h3></li>
                     <li><h3 style="color: #2B91AF"> Share Videos to everyone in the room by "* your_desired_video_name" e.g "* how was earth formed"</h3></li>
                     <li><h3 style="color: darkgreen"> You can also ask sam for weather , simple maths , root words of English words</h3></li>
@@ -88,6 +88,72 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="api.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function(){
+            $('#sc-widget').css('visibility','hidden');
+            var roomName = window.location.href.split("/")
+            $('.roomnameInput').val(roomName[roomName.length-1]);
+
+            // Navigation Panel
+            var $page1 = $(".page-1");
+            var $page2 = $(".page-2");
+            var $page3 = $(".page-3");
+            $page2.hide();
+            $page1.show();
+            $page3.hide();
+
+            navigate = function(nav){
+                $('.nav,.masthead-nav').find('li').each(function(index){
+                    $($('.nav,.masthead-nav').find('li')[index]).removeClass("active");
+
+                })
+                $(nav).parent().addClass("active");
+
+                if ($(nav).text() == "Features"){
+                    $page1.hide();
+                    $page2.show();
+                    $page3.hide();
+                }else if($(nav).text() == "Contact"){
+                    $page1.hide();
+                    $page3.show();
+                    $page2.hide();
+
+                } else {
+                    $page2.hide();
+                    $page1.show();
+                    $page3.hide();
+
+                }
+            }
+        });
+
+
+        (function(){
+
+            var widgetIframe = document.getElementById('sc-widget'),
+
+                    widget       = SC.Widget(widgetIframe);
+
+            widget.bind(SC.Widget.Events.READY, function() {
+                widget.bind(SC.Widget.Events.PLAY, function() {
+                    // get information about currently playing sound
+                    widget.getCurrentSound(function(currentSound) {
+                    });
+                });
+                // get current level of volume
+                widget.getVolume(function(volume) {
+                });
+
+                // set new volume level
+                // get the value of the current position
+            });
+
+        }());
+
+    </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="http://52.10.37.93:3001/responsivevoice.js"></script>
 <script src="http://52.10.37.93:3001/socket.io/socket.io.js"></script>
@@ -122,71 +188,6 @@
     }
 
 </script>
-  <script src="api.js" type="text/javascript"></script>
-  <script type="text/javascript">
 
-
-      $(document).ready(function(){
-          $('#sc-widget').css('visibility','hidden');
-          var roomName = window.location.href.split("/")
-          $('.roomnameInput').val(roomName[roomName.length-1]);
-
-          // Navigation Panel
-          var $page1 = $(".page-1");
-          var $page2 = $(".page-2");
-          var $page3 = $(".page-3");
-          $page2.hide();
-          $page1.show();
-          $page3.hide();
-
-          navigate = function(nav){
-              $('.nav,.masthead-nav').find('li').each(function(index){
-                  $($('.nav,.masthead-nav').find('li')[index]).removeClass("active");
-
-              })
-              $(nav).parent().addClass("active");
-
-              if ($(nav).text() == "Features"){
-                  $page1.hide();
-                  $page2.show();
-                  $page3.hide();
-              }else if($(nav).text() == "Contact"){
-                  $page1.hide();
-                  $page3.show();
-                  $page2.hide();
-
-              } else {
-                  $page2.hide();
-                  $page1.show();
-                  $page3.hide();
-
-              }
-          }
-      });
-
-
-      (function(){
-
-          var widgetIframe = document.getElementById('sc-widget'),
-
-                  widget       = SC.Widget(widgetIframe);
-
-          widget.bind(SC.Widget.Events.READY, function() {
-              widget.bind(SC.Widget.Events.PLAY, function() {
-                  // get information about currently playing sound
-                  widget.getCurrentSound(function(currentSound) {
-                  });
-              });
-              // get current level of volume
-              widget.getVolume(function(volume) {
-              });
-
-              // set new volume level
-              // get the value of the current position
-          });
-
-      }());
-
-  </script>
 </body>
 </html>
