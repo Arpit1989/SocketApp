@@ -17,7 +17,7 @@
 
     <preference name="permissions" value="none"/>
 
-  <access origin="http://52.10.37.93/*"/>
+  <access origin="*" />
   <icon src="res/icon/android/drawable-ldpi/tp_icon.png" gap:platform="android" gap:qualifier="ldpi" />
     <icon src="res/icon/android/drawable-mdpi/tp_icon.png" gap:platform="android" gap:qualifier="mdpi" />
     <icon src="res/icon/android/drawable-hdpi/tp_icon.png" gap:platform="android" gap:qualifier="hdpi" />

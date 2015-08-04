@@ -29,7 +29,7 @@ $(function() {
   var lastTypingTime;
   var $currentInput ;
   var virtual_girl = 'Jazmine';
-  var socket = io();
+  var socket = io.connect("http://52.10.37.93:3001");
 
 
   $myInput.change(function(){
