@@ -29,7 +29,8 @@ $(function() {
   var lastTypingTime;
   var $currentInput ;
   var virtual_girl = 'Jazmine';
-  var socket = io.connect("http://52.10.37.93:3001");
+  //var socket = io();
+  var socket = io.connect("http://52.10.37.93:80");
 
 
   $myInput.change(function(){
@@ -421,6 +422,11 @@ $(function() {
     addParticipantsMessage(data);
   });
 
+  socket.on('getRooms',function(data){
+     console.log(data);
+      console.log("getRooms");
+      $("#roomNames ul").append('<li><a href="/user/messages"><span class="tab">Message Center</span></a></li>');
+  });
   socket.on('play_music',function(data){
       console.log(data);
       if (data.play == true){
@@ -445,6 +451,9 @@ $(function() {
     addChatMessage(data);
   });
 
+  socket.on('change room',function(data){
+
+  });
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
     log(data.username + ' joined ' + data.room);

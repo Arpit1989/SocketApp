@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-var port = process.env.PORT || 3001;
+var port = process.env.PORT || 80;
 var cors = require('cors');
 var request = require('request');
 app.use(cors());
@@ -29,6 +29,7 @@ app.get('/:id',function(req,res){
     var rooms = {};
 
     io.on('connection', function (socket) {
+        socket.emit('getRooms',{ rooms: rooms, usernames: usernames})
 
         socket.on('setRoom', function (roomName) {
 
@@ -41,9 +42,20 @@ app.get('/:id',function(req,res){
             socket.join(socket.room);
 
         });
-
         var addedUser = false;
         // when the client emits 'new message', this listens and executes
+
+        socket.on("change room",function(data){
+            socket.leave(socket.room);
+            socket.join(data.newroom);
+        });
+
+
+        socket.on('getRooms',function(data){
+            socket.emit('getRooms',{
+               rooms: rooms, usernames: usernames
+            });
+        });
         socket.on('feed data',function(data){
 
             redis.set(Object.keys(data)[0].toLowerCase(), data[Object.keys(data)[0]].toLowerCase());
@@ -80,7 +92,7 @@ app.get('/:id',function(req,res){
                             });
                         }
                     })
-                }else if (data.username == "Jasmine") {
+                }else if (data.username == "Jazmine") {
                     console.log(data);
                     socket.broadcast.in(socket.room).emit('new message', {
                         username: data.username,
@@ -115,6 +127,7 @@ app.get('/:id',function(req,res){
                 rooms[socket.room] = { name:socket.room, users:[] };
             }
             rooms[socket.room].users.push(username);
+
 
             addedUser = true;
             socket.emit('login', {
