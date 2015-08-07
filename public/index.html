@@ -21,8 +21,8 @@
     <![endif]-->
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://jazmine.co.in/style.css">
-    <!--<link rel="stylesheet" href="http://localhost:3001/style.css">-->
+    <!--<link rel="stylesheet" href="http://jazmine.co.in/style.css">-->
+    <link rel="stylesheet" href="style.css">
 
 
 </head>
@@ -34,7 +34,7 @@
                     <nav>
                         <ul class="nav masthead-nav">
                             <li class="active"><a onclick="navigate(this);" href="#">Home</a></li>
-                            <li><a onclick="navigate(this);" href="#">Features</a></li>
+                            <li><a onclick="navigate(this);" href="#">Features <sup style="color: #a03808">inside chat!</sup></a></li>
                             <li><a onclick="navigate(this);" href="#">Contact</a></li>
                         </ul>
                     </nav>
@@ -43,20 +43,35 @@
             <div class="inner cover page-1">
                 <ul class="pages">
                     <li class="login page">
-                        <h3 class="cover-heading">Welcome</h3>
-                        <div class="form">
-                            <h3 class="title" style="color: khaki;">What's your nickname?</h3>
+                        <div style="margin-top: 4em;" class="form">
+                            <h3 class="title" style="color: khaki;">Choose your nickname?</h3>
                             <input class="usernameInput" type="text" maxlength="14" placeholder="Press Enter" />
                             <h3 class="title" style="color: khaki;">Enter the Room</h3>
                             <input class="roomnameInput" type="text" maxlength="14" placeholder="Press Enter" />
+                            <span style="font-size: 1.5em;color: khaki" >Or Join Rooms (No. of Users)</span>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <ul class="suggestedRooms">
+                                        <li onclick="peopleNearMe()" style="cursor:pointer;background-color: #007A00">People Near Me!</li>
+                                        <li onclick="peopleNotSoNearMe()" style="cursor:pointer;background-color: #D83647">People Not So near ME!</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="suggestedRooms">
+                                        <li onclick="trustYourDestiny()" style="cursor: pointer;background-color: #19469D">Trust Your Destiny! </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="suggestedRooms" id="roomNames">
+
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </li>
                     <li class="chat page">
                         <div class="chatArea">
-                            <ul id="roomNames">
-
-                            </ul>
-
+                            <a class="changeRoom" onclick="navigate(this);" href="#">Change Room</a>
                             <ul class="messages"></ul>
                         </div>
                         <input class="inputMessage" placeholder="Type here..."/>
@@ -69,7 +84,7 @@
 
             <div class="inner cover page-2">
                 <h1 class="cover-heading" style="color: wheat;">Features </h1>
-                <ul style="text-align: justify;padding-right: 0.1em;">
+                <ul id="features" style="text-align: justify;padding-right: 0.1em;">
                     <li><h3 style="color: cornflowerblue;font-size: 14px;"> Ask Jazmine Anything like @who is Spider Man , @where is Panama Canal or @what is time dilation</h3></li>
                     <li><h3 style="color: tomato;font-size: 14px;"> By enabling the microPhone , say "Baby what is gum bacteria" or "Baby who are romans"</h3></li>
                     <li><h3 style="color: #2B91AF;font-size: 14px;"> Share Videos to everyone in the room by "* your_desired_video_name" e.g "* how was earth formed"</h3></li>
@@ -81,7 +96,7 @@
 
             <div class="inner cover page-3">
                 <h1 class="cover-heading" style="color: wheat;">Contact</h1>
-                <ul>
+                <ul style="padding: 1em 0em 0em 0em;">
                     <li><h2 style="color: #2B91AF;font-size: 14px;">speak2arpit@gmail.com or +91-8447384035</h2></li>
                 </ul>
 
@@ -98,8 +113,8 @@
 
         $(document).ready(function(){
             $('#sc-widget').css('visibility','hidden');
-            var roomName = window.location.href.split("/")
-            $('.roomnameInput').val(roomName[roomName.length-1]);
+//            var roomName = window.location.href.split("/")
+//            $('.roomnameInput').val(roomName[roomName.length-1]);
 
             // Navigation Panel
             var $page1 = $(".page-1");
@@ -115,8 +130,8 @@
 
                 })
                 $(nav).parent().addClass("active");
+                if ($(nav).text() == "Features inside chat!"){
 
-                if ($(nav).text() == "Features"){
                     $page1.hide();
                     $page2.show();
                     $page3.hide();
@@ -124,7 +139,8 @@
                     $page1.hide();
                     $page3.show();
                     $page2.hide();
-
+                }else if($(nav).text() == "Change Room"){
+                    location.reload();
                 } else {
                     $page2.hide();
                     $page1.show();
@@ -159,11 +175,11 @@
 
     </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="http://jazmine.co.in/responsivevoice.js"></script>
+<script src="responsivevoice.js"></script>
 <!--<script src="http://localhost:3001/responsivevoice.js"></script>-->
 
 <script type="text/javascript" src="http://cdn.socket.io/socket.io-1.0.3.js"></script>
-<script src="http://jazmine.co.in/main.js"></script>
+<script src="main.js"></script>
 <!--<script src="main.js"></script>-->
 
     <script>//! annyang
@@ -195,6 +211,10 @@
         annyang.start({ autoRestart: true,continuous: true });
     }
 
+    app.initialize();
+    document.addEventListener('deviceready', function() {
+
+    });
 </script>
 </body>
 </html>

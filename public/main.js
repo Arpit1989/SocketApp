@@ -21,7 +21,7 @@ $(function() {
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
 
-
+  var $roomsAvailable = $('#roomNames')
   // Prompt for setting a username
   var username;
   var connected = false;
@@ -29,8 +29,8 @@ $(function() {
   var lastTypingTime;
   var $currentInput ;
   var virtual_girl = 'Jazmine';
-  //var socket = io();
-  var socket = io.connect("http://52.10.37.93:80");
+  var socket = io();
+  //var socket = io.connect("http://52.10.37.93:80");
 
 
   $myInput.change(function(){
@@ -415,18 +415,178 @@ $(function() {
   socket.on('login', function (data) {
     connected = true;
     // Display the welcome message
-    var message = "Welcome to Chat , you are in "+ data.room;
+    var message = "Welcome, you are in "+ data.room;
     log(message, {
       prepend: true
     });
     addParticipantsMessage(data);
   });
 
+  updateRooms = function(data){
+      for (var key in Object.keys(data.rooms)) {
+          $roomsAvailable.append(($("<li style=cursor:pointer;background-color:"+getUsernameColor(Object.keys(data.rooms)[key])+">"+Object.keys(data.rooms)[key]+' ( '+Object.keys((data.rooms[Object.keys(data.rooms)[key]]).users).length+' ) '+"</li>").bind('click',function(){ updateRoom( this.textContent )})));
+      }
+
+  };
   socket.on('getRooms',function(data){
-     console.log(data);
-      console.log("getRooms");
-      $("#roomNames ul").append('<li><a href="/user/messages"><span class="tab">Message Center</span></a></li>');
+      getLocation();
+      updateRooms(data);
+      var randomRoomName = selectRandomRoom(data);
+      localStorage.setItem("rooms",randomRoomName);
   });
+
+    selectRandomRoom = function(data){
+        var randomRoom;
+        for (var key in Object.keys(data.rooms)) {
+            randomRoom = Object.keys(data.rooms)[Math.floor(Math.random()*(Object.keys(data.rooms)).length)];
+        }
+        return randomRoom;
+    };
+
+
+    getLocation = function(){
+        $.ajax( {
+            url: '//freegeoip.net/json/',
+            type: 'POST',
+            dataType: 'jsonp',
+            success: function(location) {
+                // example where I update content on the page.
+                localStorage.setItem("city", location.city);
+                localStorage.setItem("region-code",location.region_code);
+                localStorage.setItem("region-name",location.region_name);
+                localStorage.setItem("areacode",location.areacode);
+                localStorage.setItem("ip",location.ip);
+                localStorage.setItem("longitude",location.longitude);
+                localStorage.setItem("latitude",location.latitude);
+                localStorage.setItem("country-name",location.country_name);
+                localStorage.setItem("country-code",location.country_code);
+            }
+        } );
+    }
+
+
+  updateRoom = function(newRoom){
+      var newRoom = newRoom.split("(")[0];
+      username = cleanInput($usernameInput.val().trim());
+      roomname = cleanInput(newRoom.trim());
+      // If the username is valid
+      if (username) {
+          $loginPage.fadeOut();
+          $chatPage.show();
+          $loginPage.off('click');
+          $currentInput = $inputMessage.focus();
+
+          // Tell server the room name
+          socket.emit('setRoom',roomname);
+          // Tell the server your username
+          socket.emit('add user', username);
+
+      }else{
+          username = "Anonymous User "
+          $loginPage.fadeOut();
+          $chatPage.show();
+          $loginPage.off('click');
+          $currentInput = $inputMessage.focus();
+
+          // Tell server the room name
+          socket.emit('setRoom',roomname);
+          // Tell the server your username
+          socket.emit('add user', username);
+      }
+  };
+    peopleNearMe = function(){
+            var newRoom = localStorage.getItem("city");
+            username = cleanInput($usernameInput.val().trim());
+            roomname = cleanInput(newRoom.trim());
+            // If the username is valid
+            if (username) {
+                $loginPage.fadeOut();
+                $chatPage.show();
+                $loginPage.off('click');
+                $currentInput = $inputMessage.focus();
+
+                // Tell server the room name
+                socket.emit('setRoom',roomname);
+                // Tell the server your username
+                socket.emit('add user', username);
+
+            } else {
+                username = "Anonymous User "
+                $loginPage.fadeOut();
+                $chatPage.show();
+                $loginPage.off('click');
+                $currentInput = $inputMessage.focus();
+
+                // Tell server the room name
+                socket.emit('setRoom',roomname);
+                // Tell the server your username
+                socket.emit('add user', username);
+
+            }
+    };
+
+    trustYourDestiny = function(){
+        var newRoom = localStorage.getItem("rooms");
+        username = cleanInput($usernameInput.val().trim());
+        roomname = cleanInput(newRoom.trim());
+        // If the username is valid
+        if (username) {
+            $loginPage.fadeOut();
+            $chatPage.show();
+            $loginPage.off('click');
+            $currentInput = $inputMessage.focus();
+
+            // Tell server the room name
+            socket.emit('setRoom',roomname);
+            // Tell the server your username
+            socket.emit('add user', username);
+
+        } else {
+            username = "Anonymous User "
+            $loginPage.fadeOut();
+            $chatPage.show();
+            $loginPage.off('click');
+            $currentInput = $inputMessage.focus();
+
+            // Tell server the room name
+            socket.emit('setRoom',roomname);
+            // Tell the server your username
+            socket.emit('add user', username);
+
+        }
+    };
+
+    peopleNotSoNearMe = function(){
+        var newRoom = localStorage.getItem("region-name");
+        username = cleanInput($usernameInput.val().trim());
+        roomname = cleanInput(newRoom.trim());
+        // If the username is valid
+        if (username) {
+            $loginPage.fadeOut();
+            $chatPage.show();
+            $loginPage.off('click');
+            $currentInput = $inputMessage.focus();
+
+            // Tell server the room name
+            socket.emit('setRoom',roomname);
+            // Tell the server your username
+            socket.emit('add user', username);
+
+        } else {
+            username = "Anonymous User"
+            $loginPage.fadeOut();
+            $chatPage.show();
+            $loginPage.off('click');
+            $currentInput = $inputMessage.focus();
+
+            // Tell server the room name
+            socket.emit('setRoom',roomname);
+            // Tell the server your username
+            socket.emit('add user', username);
+
+        }
+    }
+
   socket.on('play_music',function(data){
       console.log(data);
       if (data.play == true){
@@ -451,9 +611,6 @@ $(function() {
     addChatMessage(data);
   });
 
-  socket.on('change room',function(data){
-
-  });
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
     log(data.username + ' joined ' + data.room);

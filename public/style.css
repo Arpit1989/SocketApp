@@ -15,7 +15,19 @@ ul {
   padding-bottom: 2em;
 }
 
+.suggestedRooms li{
+    border-radius: 0.51em;
+    height: 2em;
+    font-size: 1.5em;
+    margin-top: 0.4em;
 
+}
+.changeRoom{
+    position: fixed;
+    right: 0.6%;
+    top: 1%;
+    margin: 3% 1% 1% 1%;
+}
 
  /*Login Page */
 
@@ -266,6 +278,10 @@ body {
     .cover-container {
         width: 100%; /* Must be percentage or pixels for horizontal alignment */
     }
+    #features{
+        padding: 2em 0em 1em 7em;
+    }
+
 }
 
 @media (min-width: 992px) {
@@ -274,4 +290,21 @@ body {
     .cover-container {
         width: 100%;
     }
+    #features{
+        padding: 2em 0em 1em 9em;
+    }
+
 }
+@media (min-width: 1440px) {
+     .masthead,
+     .mastfoot,
+     .cover-container {
+         width: 100%;
+     }
+     #features{
+         padding: 2em 0em 0em 25em;
+     }
+
+}
+
+

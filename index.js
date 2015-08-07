@@ -47,6 +47,7 @@ app.get('/:id',function(req,res){
 
         socket.on("change room",function(data){
             socket.leave(socket.room);
+
             socket.join(data.newroom);
         });
 
@@ -177,6 +178,9 @@ app.get('/:id',function(req,res){
                     numUsers: rooms[socket.room].users.length,
                     room: socket.room
                 });
+                if (rooms[socket.room].users.length == 0){
+                    delete rooms[socket.room];
+                }
             }
             socket.leave(socket.room);
         });
