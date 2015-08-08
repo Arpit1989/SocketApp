@@ -23,6 +23,28 @@ ul {
     margin-top: 0.4em;
 
 }
+ #peopleNearMe:active{
+     padding-top: 1em;;cursor:pointer;background-color: #025602
+ }
+
+ #peopleNearMe{
+     padding-top: 1em;;cursor:pointer;background-color: #007A00
+ }
+
+ #peopleNotNear{
+     padding-top: 1em;;cursor:pointer;background-color: #D83647
+ }
+
+ #peopleNotNear:active{
+     padding-top: 1em;cursor:pointer;background-color: #9A202C;
+ }
+ #trustDestiny{
+     padding-top: 1em;cursor: pointer;background-color: #19469D
+ }
+ #trustDestiny:active{
+     padding-top: 1em;cursor: pointer;background-color: #09255A;
+ }
+
 .changeRoom{
     position: fixed;
     right: 0.6%;
