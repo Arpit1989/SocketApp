@@ -437,15 +437,15 @@ $(function() {
             dataType: 'jsonp',
             success: function(location) {
                 // example where I update content on the page.
-                localStorage.setItem("city", location.city);
-                localStorage.setItem("region-code",location.region_code);
-                localStorage.setItem("region-name",location.region_name);
-                localStorage.setItem("areacode",location.areacode);
-                localStorage.setItem("ip",location.ip);
-                localStorage.setItem("longitude",location.longitude);
-                localStorage.setItem("latitude",location.latitude);
-                localStorage.setItem("country-name",location.country_name);
-                localStorage.setItem("country-code",location.country_code);
+                window.localStorage.setItem("city", location.city);
+                window.localStorage.setItem("region-code",location.region_code);
+                window.localStorage.setItem("region-name",location.region_name);
+                window.localStorage.setItem("areacode",location.areacode);
+                window.localStorage.setItem("ip",location.ip);
+                window.localStorage.setItem("longitude",location.longitude);
+                window.localStorage.setItem("latitude",location.latitude);
+                window.localStorage.setItem("country-name",location.country_name);
+                window.localStorage.setItem("country-code",location.country_code);
             }
         });
     };
@@ -454,7 +454,7 @@ $(function() {
       getLocation();
       updateRooms(data);
       var randomRoomName = selectRandomRoom(data);
-      localStorage.setItem("rooms",randomRoomName);
+        window.localStorage.setItem("rooms",randomRoomName);
   });
 
     selectRandomRoom = function(data){
@@ -501,9 +501,9 @@ $(function() {
       }
   };
     peopleNearMe = function(){
-            var newRoom = localStorage.getItem("city");
+            var newRoom = window.localStorage.getItem("city");
             if (newRoom == ""){
-                newRoom = localStorage.getItem("country-name");
+                newRoom = window.localStorage.getItem("country-name");
             }
             username = cleanInput($usernameInput.val().trim());
             roomname = cleanInput(newRoom.trim());
@@ -536,7 +536,7 @@ $(function() {
     };
 
     trustYourDestiny = function(){
-        var newRoom = localStorage.getItem("rooms");
+        var newRoom = window.localStorage.getItem("rooms");
         username = cleanInput($usernameInput.val().trim());
         roomname = cleanInput(newRoom.trim());
         // If the username is valid
@@ -567,9 +567,9 @@ $(function() {
     };
 
     peopleNotSoNearMe = function(){
-        var newRoom = localStorage.getItem("region-name");
+        var newRoom = window.localStorage.getItem("region-name");
         if (newRoom == ""){
-            newRoom = localStorage.getItem("country-name");
+            newRoom = window.localStorage.getItem("country-name");
         }
         username = cleanInput($usernameInput.val().trim());
         roomname = cleanInput(newRoom.trim());
@@ -634,7 +634,7 @@ $(function() {
   socket.on('user left', function (data) {
     log(data.username + ' left ' + data.room);
       if (data.numUsers == 0){
-          localStorage.removeItem(data.room);
+          window.localStorage.removeItem(data.room);
       }
     addParticipantsMessage(data);
     removeChatTyping(data);
