@@ -18,6 +18,9 @@
     <preference name="permissions" value="none"/>
 
   <access origin="*" />
+  <feature name="Geolocation">
+    <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
+  </feature>
 
   <icon src="res/icon/android/drawable-ldpi/tp_icon.png" gap:platform="android" gap:qualifier="ldpi" />
     <icon src="res/icon/android/drawable-mdpi/tp_icon.png" gap:platform="android" gap:qualifier="mdpi" />
