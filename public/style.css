@@ -258,6 +258,13 @@ body {
  #jazmine{
      width: 9%
  }
+ #contactpage{
+     position: relative;
+     left: 6%;
+ }
+ #contactpage h2{
+     width: 93%;
+ }
 
 /*
  * Affix and center
@@ -286,7 +293,13 @@ body {
     #jazmine{
         width: 5%
     }
-
+    #contactpage{
+      position: relative;
+      left: 6%;
+    }
+    #contactpage h2{
+      width: 93%;
+    }
 
 }
 
@@ -302,6 +315,14 @@ body {
     #jazmine{
         width: 5%
     }
+    #contactpage{
+        position: relative;
+        left: 29%;
+    }
+    #contactpage h2{
+        width: 53%;
+    }
+
 }
 @media (min-width: 1440px) {
      .masthead,
@@ -315,6 +336,14 @@ body {
      #jazmine{
         width: 5%
      }
+    #contactpage{
+        position: relative;
+        left: 35%;
+    }
+    #contactpage h2{
+        width: 29%;
+    }
+
 }
 
 
