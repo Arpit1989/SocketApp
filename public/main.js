@@ -29,8 +29,8 @@ $(function() {
   var lastTypingTime;
   var $currentInput ;
   var virtual_girl = 'Jazmine';
-  var socket = io();
-  //var socket = io.connect("http://52.10.37.93:80");
+  //var socket = io();
+  var socket = io.connect("http://52.10.37.93:8080");
 
 
   $myInput.change(function(){
@@ -424,26 +424,12 @@ $(function() {
 
   updateRooms = function(data){
       for (var key in Object.keys(data.rooms)) {
-          $roomsAvailable.append(($("<li style=cursor:pointer;background-color:"+getUsernameColor(Object.keys(data.rooms)[key])+">"+Object.keys(data.rooms)[key]+' ( '+Object.keys((data.rooms[Object.keys(data.rooms)[key]]).users).length+' ) '+"</li>").bind('click',function(){ updateRoom( this.textContent )})));
+          if ((data.rooms)[Object.keys(data.rooms)[key]].users.length != 0){
+            $roomsAvailable.append(($("<li style=cursor:pointer;background-color:"+getUsernameColor(Object.keys(data.rooms)[key])+">"+Object.keys(data.rooms)[key] +" <span class='glyphicon glyphicon-user' aria-hidden='true'> </span> <span class='badge'>" +Object.keys((data.rooms[Object.keys(data.rooms)[key]]).users).length+"</span>"+"</li>").bind('click',function(){ updateRoom( this.textContent )})));
+          }
       }
 
   };
-  socket.on('getRooms',function(data){
-      getLocation();
-      updateRooms(data);
-      var randomRoomName = selectRandomRoom(data);
-      localStorage.setItem("rooms",randomRoomName);
-  });
-
-    selectRandomRoom = function(data){
-        var randomRoom;
-        for (var key in Object.keys(data.rooms)) {
-            randomRoom = Object.keys(data.rooms)[Math.floor(Math.random()*(Object.keys(data.rooms)).length)];
-        }
-        return randomRoom;
-    };
-
-
     getLocation = function(){
         $.ajax( {
             url: '//freegeoip.net/json/',
@@ -461,12 +447,32 @@ $(function() {
                 localStorage.setItem("country-name",location.country_name);
                 localStorage.setItem("country-code",location.country_code);
             }
-        } );
-    }
+        });
+    };
+
+    socket.on('getRooms',function(data){
+      getLocation();
+      updateRooms(data);
+      var randomRoomName = selectRandomRoom(data);
+      localStorage.setItem("rooms",randomRoomName);
+  });
+
+    selectRandomRoom = function(data){
+        var randomRoom;
+        for (var key in Object.keys(data.rooms)) {
+            if ((data.rooms)[Object.keys(data.rooms)[key]].users.length != 0){
+                randomRoom = Object.keys(data.rooms)[Math.floor(Math.random()*(Object.keys(data.rooms)).length)];
+            }
+        }
+        return randomRoom;
+    };
+
+
 
 
   updateRoom = function(newRoom){
-      var newRoom = newRoom.split("(")[0];
+      console.log(newRoom);
+      var newRoom = newRoom.split("  ")[0];
       username = cleanInput($usernameInput.val().trim());
       roomname = cleanInput(newRoom.trim());
       // If the username is valid
@@ -496,9 +502,13 @@ $(function() {
   };
     peopleNearMe = function(){
             var newRoom = localStorage.getItem("city");
+            if (newRoom == ""){
+                newRoom = localStorage.getItem("country-name");
+            }
             username = cleanInput($usernameInput.val().trim());
             roomname = cleanInput(newRoom.trim());
             // If the username is valid
+            console.log(roomname);
             if (username) {
                 $loginPage.fadeOut();
                 $chatPage.show();
@@ -558,6 +568,9 @@ $(function() {
 
     peopleNotSoNearMe = function(){
         var newRoom = localStorage.getItem("region-name");
+        if (newRoom == ""){
+            newRoom = localStorage.getItem("country-name");
+        }
         username = cleanInput($usernameInput.val().trim());
         roomname = cleanInput(newRoom.trim());
         // If the username is valid
@@ -620,6 +633,9 @@ $(function() {
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
     log(data.username + ' left ' + data.room);
+      if (data.numUsers == 0){
+          localStorage.removeItem(data.room);
+      }
     addParticipantsMessage(data);
     removeChatTyping(data);
   });

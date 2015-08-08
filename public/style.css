@@ -18,7 +18,7 @@ ul {
 .suggestedRooms li{
     border-radius: 0.51em;
     height: 2em;
-    font-size: 1.5em;
+    font-size: 1em;
     margin-top: 0.4em;
 
 }
@@ -37,7 +37,7 @@ ul {
   border: none;
   border-bottom: 2px solid #fff;
   outline: none;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
   text-align: center;
   width: 100%;
 }
@@ -47,7 +47,7 @@ ul {
     border: none;
     border-bottom: 2px solid #fff;
     outline: none;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
     text-align: center;
     width: 100%;
 }
@@ -56,12 +56,12 @@ ul {
 
 
 .login.page .usernameInput {
-  font-size: 200%;
+  font-size: 140%;
   letter-spacing: 3px;
 }
 
 .login.page .roomnameInput {
-    font-size: 200%;
+    font-size: 140%;
     letter-spacing: 3px;
 }
 
@@ -202,7 +202,7 @@ body {
 .masthead-nav > li > a {
     padding-right: 0;
     padding-left: 0;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
     color: #fff; /* IE8 proofing */
     color: rgba(255,255,255,.75);
@@ -252,7 +252,12 @@ body {
     color: #999; /* IE8 proofing */
     color: rgba(255,255,255,.5);
 }
-
+#youTube{
+    max-width: 58%;
+}
+ #jazmine{
+     width: 9%
+ }
 
 /*
  * Affix and center
@@ -278,9 +283,10 @@ body {
     .cover-container {
         width: 100%; /* Must be percentage or pixels for horizontal alignment */
     }
-    #features{
-        padding: 2em 0em 1em 7em;
+    #jazmine{
+        width: 5%
     }
+
 
 }
 
@@ -290,10 +296,12 @@ body {
     .cover-container {
         width: 100%;
     }
-    #features{
-        padding: 2em 0em 1em 9em;
+    #youTube{
+        max-width: 25%;
     }
-
+    #jazmine{
+        width: 5%
+    }
 }
 @media (min-width: 1440px) {
      .masthead,
@@ -301,10 +309,12 @@ body {
      .cover-container {
          width: 100%;
      }
-     #features{
-         padding: 2em 0em 0em 25em;
+     #youTube{
+         max-width: 25%;
      }
-
+     #jazmine{
+        width: 5%
+     }
 }
 
 

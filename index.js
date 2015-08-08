@@ -29,7 +29,7 @@ app.get('/:id',function(req,res){
     var rooms = {};
 
     io.on('connection', function (socket) {
-        socket.emit('getRooms',{ rooms: rooms, usernames: usernames})
+        socket.emit('getRooms',{ rooms: rooms, usernames: usernames});
 
         socket.on('setRoom', function (roomName) {
 
@@ -40,7 +40,6 @@ app.get('/:id',function(req,res){
             }
             // add the client's username to the global list
             socket.join(socket.room);
-
         });
         var addedUser = false;
         // when the client emits 'new message', this listens and executes
@@ -141,6 +140,8 @@ app.get('/:id',function(req,res){
                 numUsers: rooms[socket.room].users.length,
                 room: socket.room
             });
+            socket.emit('getRooms',{ rooms: rooms, usernames: usernames})
+
         });
 
         // when the client emits 'typing', we broadcast it to others
