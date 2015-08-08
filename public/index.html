@@ -45,7 +45,7 @@
                 <ul class="pages">
                     <li class="login page">
                         <div style="margin-top: 4em;" class="form">
-                            <h4 class="title" style="color: khaki;"> Choose your nickname? </h4>
+                            <h4 class="title" style="color: khaki">Choose your nickname?</h4>
                             <input class="usernameInput" type="text" maxlength="14" placeholder="Press Enter" />
                             <h4 class="title" style="color: khaki;">Enter the Room</h4>
                             <input class="roomnameInput" type="text" maxlength="14" placeholder="Press Enter" />
@@ -770,14 +770,13 @@
             };
             peopleNearMe = function(){
                 var newRoom = window.localStorage.getItem("city");
-
                 if (newRoom == ""){
                     newRoom = window.localStorage.getItem("country-name");
                 }
                 username = cleanInput($usernameInput.val().trim());
-                roomname = cleanInput(newRoom);
+                roomname = cleanInput(newRoom.trim());
                 // If the username is valid
-
+                console.log(roomname);
                 if (username) {
                     $loginPage.fadeOut();
                     $chatPage.show();
@@ -841,7 +840,7 @@
                     newRoom = window.localStorage.getItem("country-name");
                 }
                 username = cleanInput($usernameInput.val().trim());
-                roomname = cleanInput(newRoom);
+                roomname = cleanInput(newRoom.trim());
                 // If the username is valid
                 if (username) {
                     $loginPage.fadeOut();

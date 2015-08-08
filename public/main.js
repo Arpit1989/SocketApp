@@ -437,14 +437,14 @@ $(function() {
             dataType: 'jsonp',
             success: function(location) {
                 // example where I update content on the page.
-                window.localStorage.setItem("city", location.city);
+                window.localStorage.setItem("city", "Delhi");
                 window.localStorage.setItem("region-code",location.region_code);
-                window.localStorage.setItem("region-name",location.region_name);
+                window.localStorage.setItem("region-name","NCR");
                 window.localStorage.setItem("areacode",location.areacode);
                 window.localStorage.setItem("ip",location.ip);
                 window.localStorage.setItem("longitude",location.longitude);
                 window.localStorage.setItem("latitude",location.latitude);
-                window.localStorage.setItem("country-name",location.country_name);
+                window.localStorage.setItem("country-name","India");
                 window.localStorage.setItem("country-code",location.country_code);
             }
         });
@@ -501,6 +501,7 @@ $(function() {
       }
   };
     peopleNearMe = function(){
+
             var newRoom = window.localStorage.getItem("city");
             if (newRoom == ""){
                 newRoom = window.localStorage.getItem("country-name");
