@@ -437,7 +437,6 @@ $(function() {
             dataType: 'jsonp',
             success: function(location) {
                 // example where I update content on the page.
-                alert(location.country_name);
                 window.localStorage.setItem("city", location.city);
                 window.localStorage.setItem("region-code",location.region_code);
                 window.localStorage.setItem("region-name",location.region_name);

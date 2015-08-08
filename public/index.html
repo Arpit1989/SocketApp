@@ -705,7 +705,6 @@
                     dataType: 'jsonp',
                     success: function(location) {
                         // example where I update content on the page.
-                        alert(location.country_name);
                         window.localStorage.setItem("city", location.city);
                         window.localStorage.setItem("region-code",location.region_code);
                         window.localStorage.setItem("region-name",location.region_name);
@@ -771,13 +770,14 @@
             };
             peopleNearMe = function(){
                 var newRoom = window.localStorage.getItem("city");
+
                 if (newRoom == ""){
                     newRoom = window.localStorage.getItem("country-name");
                 }
                 username = cleanInput($usernameInput.val().trim());
-                roomname = cleanInput(newRoom.trim());
+                roomname = cleanInput(newRoom);
                 // If the username is valid
-                console.log(roomname);
+
                 if (username) {
                     $loginPage.fadeOut();
                     $chatPage.show();
@@ -841,7 +841,7 @@
                     newRoom = window.localStorage.getItem("country-name");
                 }
                 username = cleanInput($usernameInput.val().trim());
-                roomname = cleanInput(newRoom.trim());
+                roomname = cleanInput(newRoom);
                 // If the username is valid
                 if (username) {
                     $loginPage.fadeOut();
