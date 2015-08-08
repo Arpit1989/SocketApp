@@ -35,7 +35,7 @@
                         <ul class="nav masthead-nav">
 
                             <li class="active"><a onclick="navigate(this);" href="#">Home <span class="glyphicon glyphicon-star" aria-hidden="true"></span></a></li>
-                            <li><a onclick="navigate(this);" href="#">Features <sup style="color: #a03808">inside chat! </sup><span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span></a></li>
+                            <li><a onclick="navigate(this);" href="#">Features <sup style="color: #91CEFB">User Guide ! </sup><span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span></a></li>
                             <li><a onclick="navigate(this);" href="#">Contact <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> </a></li>
                         </ul>
                     </nav>
@@ -72,7 +72,7 @@
                     </li>
                     <li class="chat page">
                         <div class="chatArea">
-                            <a class="changeRoom" onclick="location.reload()" href="#"><span onclick="location.reload()" class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
+                            <a class="changeRoom" onclick="location.reload()" href="#">Change Room<span onclick="location.reload()" class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
                             <ul class="messages"></ul>
                         </div>
                         <input class="inputMessage" placeholder="Type here..."/>
@@ -92,7 +92,9 @@
                             <img id="jazmine" src="Jazmine.png" alt="Jazmine">
                             <div class="caption">
                                 <h3 style="color: azure">Virtual Assitant </h3>
-                                <p style="color: azure">Ask Jazmine Anything like @who is Spider Man , @where is Panama Canal or @what is time dilation ... By enabling the microPhone , say "Baby what is gum bacteria" or "Baby who are romans"</p>
+                                <p style="color: azure"> By Using '@' before any chat message you can ask Jazmine questions like @what is Gravity , @where is Green Land , @who is Salman Khan. You can explore more, she might surprize you </p>
+                                <p style="color: azure"> By Using microphone you ask jazmine the same questions just use "baby" before every question.</p>
+
                             </div>
                         </div>
                     </div>
@@ -101,7 +103,7 @@
                             <iframe allowtransparency="true" scrolling="no" frameborder="no" src="https://w.soundcloud.com/icon/?url=http%3A%2F%2Fsoundcloud.com%2Fundefined&color=orange_white&size=64" style="width: 64px; height: 64px;"></iframe>
                             <div class="caption">
                                 <h3 style="color: azure">Music & Genre</h3>
-                                <p style="color: azure">By Typing Amaze me , It will play tops songs from Soundcloud. to change the song type "play next" or "play previous"</p>
+                                <p style="color: azure">By Typing Amaze me or saying "baby Amaze me" , Jazmine will play tops songs from Soundcloud. To move to next "play next" or "play previous" or "pause"</p>
                             </div>
                         </div>
                     </div>
@@ -110,7 +112,7 @@
                           <img id="youTube" src="youtube.png" alt="YouTube">
                           <div class="caption">
                              <h3 style="color: azure">Youtube Videos</h3>
-                             <p style="color: azure">Share Videos to everyone in the room by "* your_desired_video_name" e.g "* how was earth formed"</p>
+                             <p style="color: azure">Share Videos to everyone in the room by using asterik sign (*) before the video name like "* your_desired_video_name" e.g "* how was earth formed"</p>
                           </div>
                         </div>
                     </div>
@@ -121,7 +123,7 @@
                             <img style="width: 22%;" src="wikipedia.png" alt="Wikipedia">
                             <div class="caption">
                                 <h3 style="color: azure">Wikipedia</h3>
-                                <p style="color: azure">asdasdasd asda sdasda s adasd asd asd asd a dsad asdas dasd asdasd asdasd asd asda sdas dsa</p>
+                                <p style="color: azure">Jazmine uses WikiPedia to provide you structured content , you can ask her anything from chemistry, physics, maths, history, root words of english words & about many more. It has 40 million things to read from.</p>
                             </div>
                         </div>
                     </div>
@@ -130,7 +132,7 @@
                             <img style="width: 20%;" src="openweather.png" alt="Open Weather">
                             <div class="caption">
                                 <h3 style="color: azure">Weather Updates</h3>
-                                <p style="color: azure">You can also ask sam for weather , simple maths , root words of English words</p>
+                                <p style="color: azure">You can ask Jazmine for weather updates on any of the city like "how is the weather in Mumbai" or "Weather of Banglore"</p>
                             </div>
                         </div>
                     </div>
@@ -139,7 +141,7 @@
                             <img style="width: 37%;" src="comingsoon.png" alt="Coming Soon">
                             <div class="caption">
                                 <h3 style="color: azure">Coming Soon </h3>
-                                <p style="color: azure">asdasdasd asda sdasda s adasd asd asd asd a dsad asdas dasd asdasd asdasd asd asda sdas dsa</p>
+                                <p style="color: azure">She can do a lot, We'll soon add Video BroadCasting , Improve Intelligence of Jazmine , Add more playlist based on genre of music and many more. Please feel free to suggest us for any feature request. </p>
                             </div>
                         </div>
                     </div>
@@ -182,7 +184,7 @@
 
                 })
                 $(nav).parent().addClass("active");
-                if ($(nav).text() == "Features inside chat! "){
+                if ($(nav).text() == "Features User Guide ! "){
                     $page1.hide();
                     $page2.show();
                     $page3.hide();
