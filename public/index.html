@@ -52,18 +52,18 @@
                             <span style="font-size: 1.2em;color: khaki" >Or Join Rooms (No. of Users)</span>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <ul class="suggestedRooms">
-                                        <li onclick="peopleNearMe()" style="cursor:pointer;background-color: #007A00">People Near Me <span class="glyphicon glyphicon-heart" aria-hidden="true"></span></li>
-                                        <li onclick="peopleNotSoNearMe()" style="cursor:pointer;background-color: #D83647">People Not So near ME <span class="glyphicon glyphicon-plane" aria-hidden="true"></span></li>
+                                    <ul style="padding-left: 0em" class="suggestedRooms">
+                                        <li onclick="peopleNearMe()" style="padding-top: 1em;;cursor:pointer;background-color: #007A00">People Near Me <span class="glyphicon glyphicon-heart" aria-hidden="true"></span></li>
+                                        <li onclick="peopleNotSoNearMe()" style="padding-top: 1em;;cursor:pointer;background-color: #D83647">People Not So near ME <span class="glyphicon glyphicon-plane" aria-hidden="true"></span></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-4">
-                                    <ul class="suggestedRooms">
-                                        <li onclick="trustYourDestiny()" style="cursor: pointer;background-color: #19469D">Trust Your Destiny <span class="glyphicon glyphicon-globe" aria-hidden="true"></span></li>
+                                    <ul style="padding-left: 0em" class="suggestedRooms">
+                                        <li onclick="trustYourDestiny()" style="padding-top: 1em;;cursor: pointer;background-color: #19469D">Trust Your Destiny <span class="glyphicon glyphicon-globe" aria-hidden="true"></span></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-4">
-                                    <ul class="suggestedRooms" id="roomNames">
+                                    <ul style="padding-left: 0em" class="suggestedRooms" id="roomNames">
 
                                     </ul>
                                 </div>
@@ -693,7 +693,7 @@
             updateRooms = function(data){
                 for (var key in Object.keys(data.rooms)) {
                     if ((data.rooms)[Object.keys(data.rooms)[key]].users.length != 0){
-                        $roomsAvailable.append(($("<li style=cursor:pointer;background-color:"+getUsernameColor(Object.keys(data.rooms)[key])+">"+Object.keys(data.rooms)[key] +" <span class='glyphicon glyphicon-user' aria-hidden='true'> </span> <span class='badge'>" +Object.keys((data.rooms[Object.keys(data.rooms)[key]]).users).length+"</span>"+"</li>").bind('click',function(){ updateRoom( this.textContent )})));
+                        $roomsAvailable.append(($("<li style=padding-top: 1em;;cursor:pointer;background-color:"+getUsernameColor(Object.keys(data.rooms)[key])+">"+Object.keys(data.rooms)[key] +" <span class='glyphicon glyphicon-user' aria-hidden='true'> </span> <span class='badge'>" +Object.keys((data.rooms[Object.keys(data.rooms)[key]]).users).length+"</span>"+"</li>").bind('click',function(){ updateRoom( this.textContent )})));
                     }
                 }
 
@@ -705,15 +705,15 @@
                     dataType: 'jsonp',
                     success: function(location) {
                         // example where I update content on the page.
-                        localStorage.setItem("city", location.city);
-                        localStorage.setItem("region-code",location.region_code);
-                        localStorage.setItem("region-name",location.region_name);
-                        localStorage.setItem("areacode",location.areacode);
-                        localStorage.setItem("ip",location.ip);
-                        localStorage.setItem("longitude",location.longitude);
-                        localStorage.setItem("latitude",location.latitude);
-                        localStorage.setItem("country-name",location.country_name);
-                        localStorage.setItem("country-code",location.country_code);
+                        window.localStorage.setItem("city", location.city);
+                        window.localStorage.setItem("region-code",location.region_code);
+                        window.localStorage.setItem("region-name",location.region_name);
+                        window.localStorage.setItem("areacode",location.areacode);
+                        window.localStorage.setItem("ip",location.ip);
+                        window.localStorage.setItem("longitude",location.longitude);
+                        window.localStorage.setItem("latitude",location.latitude);
+                        window.localStorage.setItem("country-name",location.country_name);
+                        window.localStorage.setItem("country-code",location.country_code);
                     }
                 });
             };
@@ -722,7 +722,7 @@
                 getLocation();
                 updateRooms(data);
                 var randomRoomName = selectRandomRoom(data);
-                localStorage.setItem("rooms",randomRoomName);
+                window.localStorage.setItem("rooms",randomRoomName);
             });
 
             selectRandomRoom = function(data){
@@ -769,9 +769,9 @@
                 }
             };
             peopleNearMe = function(){
-                var newRoom = localStorage.getItem("city");
+                var newRoom = window.localStorage.getItem("city");
                 if (newRoom == ""){
-                    newRoom = localStorage.getItem("country-name");
+                    newRoom = window.localStorage.getItem("country-name");
                 }
                 username = cleanInput($usernameInput.val().trim());
                 roomname = cleanInput(newRoom.trim());
@@ -804,7 +804,7 @@
             };
 
             trustYourDestiny = function(){
-                var newRoom = localStorage.getItem("rooms");
+                var newRoom = window.localStorage.getItem("rooms");
                 username = cleanInput($usernameInput.val().trim());
                 roomname = cleanInput(newRoom.trim());
                 // If the username is valid
@@ -835,9 +835,9 @@
             };
 
             peopleNotSoNearMe = function(){
-                var newRoom = localStorage.getItem("region-name");
+                var newRoom = window.localStorage.getItem("region-name");
                 if (newRoom == ""){
-                    newRoom = localStorage.getItem("country-name");
+                    newRoom = window.localStorage.getItem("country-name");
                 }
                 username = cleanInput($usernameInput.val().trim());
                 roomname = cleanInput(newRoom.trim());
@@ -902,7 +902,7 @@
             socket.on('user left', function (data) {
                 log(data.username + ' left ' + data.room);
                 if (data.numUsers == 0){
-                    localStorage.removeItem(data.room);
+                    window.localStorage.removeItem(data.room);
                 }
                 addParticipantsMessage(data);
                 removeChatTyping(data);

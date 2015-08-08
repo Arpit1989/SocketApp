@@ -425,7 +425,7 @@ $(function() {
   updateRooms = function(data){
       for (var key in Object.keys(data.rooms)) {
           if ((data.rooms)[Object.keys(data.rooms)[key]].users.length != 0){
-            $roomsAvailable.append(($("<li style=cursor:pointer;background-color:"+getUsernameColor(Object.keys(data.rooms)[key])+">"+Object.keys(data.rooms)[key] +" <span class='glyphicon glyphicon-user' aria-hidden='true'> </span> <span class='badge'>" +Object.keys((data.rooms[Object.keys(data.rooms)[key]]).users).length+"</span>"+"</li>").bind('click',function(){ updateRoom( this.textContent )})));
+            $roomsAvailable.append(($("<li style=padding-top:1em;cursor:pointer;background-color:"+getUsernameColor(Object.keys(data.rooms)[key])+">"+Object.keys(data.rooms)[key] +" <span class='glyphicon glyphicon-user' aria-hidden='true'> </span> <span class='badge'>" +Object.keys((data.rooms[Object.keys(data.rooms)[key]]).users).length+"</span>"+"</li>").bind('click',function(){ updateRoom( this.textContent )})));
           }
       }
 
