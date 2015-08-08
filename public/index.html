@@ -84,7 +84,7 @@
             </div>
 
             <div class="inner cover page-2">
-                <div class="row" style="margin-top: 40px">
+                <div class="row" style="margin-top: 100px">
                     <div class="col-sm-6 col-md-4">
                         <div style="background-color: #333;border: 1px solid #333;" class="thumbnail">
                             <img id="jazmine" src="Jazmine.png" alt="Jazmine">
@@ -226,15 +226,14 @@
         }());
 
     </script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="bootstrap.min.js"></script>
 <script src="responsivevoice.js"></script>
 <!--<script src="http://localhost:3001/responsivevoice.js"></script>-->
 
-<script type="text/javascript" src="http://cdn.socket.io/socket.io-1.0.3.js"></script>
-<script src="main.js"></script>
+<script type="text/javascript" src="socket.io-1.0.3.js"></script>
 <!--<script src="main.js"></script>-->
 
-    <script>//! annyang
+<script>//! annyang
     //! version : 1.6.0
 //! author  : Tal Ater @TalAter
 //! license : MIT
@@ -269,6 +268,7 @@
     var $page1 = $(".page-1");
     var $page2 = $(".page-2");
     var $page3 = $(".page-3");
+
     function onDeviceReady(){
         document.addEventListener("backbutton", onBackKeyDown, false);
     }
@@ -932,5 +932,6 @@
             });
     });
 </script>
+
 </body>
 </html>
