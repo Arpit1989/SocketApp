@@ -503,7 +503,7 @@ $(function() {
   };
     peopleNearMe = function(){
 
-            var newRoom = "Delhi"//window.localStorage.getItem("city");
+            var newRoom = window.localStorage.getItem("city");
             if (newRoom == ""){
                 newRoom = window.localStorage.getItem("country-name");
             }
@@ -569,7 +569,7 @@ $(function() {
     };
 
     peopleNotSoNearMe = function(){
-        var newRoom = "Delhi"//window.localStorage.getItem("region-name");
+        var newRoom = window.localStorage.getItem("region-name");
         if (newRoom == ""){
             newRoom = window.localStorage.getItem("country-name");
         }
