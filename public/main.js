@@ -432,7 +432,8 @@ $(function() {
   };
     getLocation = function(){
         $.ajax( {
-            url: '//freegeoip.net/json/',
+            url: 'https://freegeoip.net/json/',
+            crossDomain: true,
             type: 'POST',
             dataType: 'jsonp',
             success: function(location) {
