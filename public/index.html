@@ -269,13 +269,27 @@
     var $page1 = $(".page-1");
     var $page2 = $(".page-2");
     var $page3 = $(".page-3");
+
     function onDeviceReady(){
-        document.addEventListener("backbutton", onBackKeyDown, false);
-    }
-    function onBackKeyDown(){
-        $page2.hide();
-        $page1.show();
-        $page3.hide();
+        /*Back event handler for all pages navigation*/
+        $(document).bind ('pageshow', function (e, data) {
+            if ($('ul.nav.masthead-nav').find('.active a').text() == 'Home ') {
+                document.addEventListener("backbutton", function () {
+                    setTimeout( function() {navigator.app.exitApp();}, 100 );
+                }, true);
+            }
+            else{
+                document.addEventListener("backbutton", function () {
+                    setTimeout( function() {
+                        $page2.hide();
+                        $page1.show();
+                        $page3.hide();
+                    }, 100 );
+                }, true);
+            }
+        });
+
+
     }
 
     document.addEventListener('deviceready', function() {
