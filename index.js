@@ -9,7 +9,6 @@ var request = require('request');
 app.use(cors());
 
 server.listen(port, function () {
-  console.log('Server listening at port %d', port);
 });
 
 var Redis = require('ioredis');
@@ -60,7 +59,6 @@ app.get('/:id',function(req,res){
 
             redis.set(Object.keys(data)[0].toLowerCase(), data[Object.keys(data)[0]].toLowerCase());
             redis.get(Object.keys(data)[0].toLowerCase(), function (err, result) {
-                console.log(result);
             });
 
             socket.broadcast.in(socket.room).emit('new message', {
@@ -74,11 +72,8 @@ app.get('/:id',function(req,res){
             // we tell the client to execute 'new message'
             if (typeof data != "string"){
                 if (data.youtube == true){
-                    console.log(data);
                     query = data.message;
-                    console.log(query);
                     url = "https://www.googleapis.com/youtube/v3/search?part=snippet&&order_by=rating&&q=" +query + "&&type=video&key=AIzaSyDRpnBif-8GCtc4E5DOcLXe2aDBVsdY6BQ";
-                    console.log(url);
 
                     request(url, function (error, response, body) {
                         if (!error && response.statusCode == 200) {
@@ -93,7 +88,6 @@ app.get('/:id',function(req,res){
                         }
                     })
                 }else if (data.username == "Jazmine") {
-                    console.log(data);
                     socket.broadcast.in(socket.room).emit('new message', {
                         username: data.username,
                         message: data.message,

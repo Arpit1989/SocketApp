@@ -41,7 +41,6 @@ $(function() {
           crossDomain: true,
           data: {ques: $myInput.val()},
           success: (function( msg ) {
-              console.log(msg);
               var msgs = msg;
               if (typeof msgs.say == "string"){
                   var vMessage = msg.say
@@ -199,9 +198,7 @@ $(function() {
       $inputMessage.val('');
         if (message.match(/^\*/g) != null){
           query = message.replace("*","");
-          console.log(query);
           var url = "https://www.googleapis.com/youtube/v3/search?part=snippet&&order_by=rating&&q="+query+"&&type=video&key=AIzaSyDRpnBif-8GCtc4E5DOcLXe2aDBVsdY6BQ";
-          console.log(url);
           $.ajax({
               url: url,
               crossDomain: true
@@ -472,7 +469,6 @@ $(function() {
 
 
   updateRoom = function(newRoom){
-      console.log(newRoom);
       var newRoom = newRoom.split("  ")[0];
       username = cleanInput($usernameInput.val().trim());
       roomname = cleanInput(newRoom.trim());
@@ -510,7 +506,6 @@ $(function() {
             username = cleanInput($usernameInput.val().trim());
             roomname = cleanInput(newRoom.trim());
             // If the username is valid
-            console.log(roomname);
             if (username) {
                 $loginPage.fadeOut();
                 $chatPage.show();
@@ -603,7 +598,6 @@ $(function() {
     }
 
   socket.on('play_music',function(data){
-      console.log(data);
       if (data.play == true){
           widget.setVolume(data.setVolume);
           widget.play();
