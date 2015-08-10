@@ -16,7 +16,7 @@
     </author>
 
     <preference name="permissions" value="none"/>
-
+    <preference name="fullscreen" value="true" />
   <access origin="*" />
   <feature name="Geolocation">
     <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
@@ -26,14 +26,14 @@
     <icon src="Jazmine_48.png" width="48" height="48" />
     <icon src="Jazmine_36.png" width="36" height="36" />
 
-    <script src="main.js" target="main.js" />
+    <script src="main-min.js" target="main-min.js" />
     <script src="bootstrap.min.js" target="bootstrap.min.js" />
-    <script src="api.js" target="api.js" />
+    <script src="api-min.js" target="api-min.js" />
     <script src="jquery-1.10.2.min.js" target="jquery-1.10.2.min.js" />
-    <script src="socket.io-1.0.3.js" target="socket.io-1.0.3.js" />
-    <script src="responsivevoice.js" target="responsivevoice.js" />
+    <script src="socket.io-1.0.3-min.js" target="socket.io-1.0.3-min.js" />
+    <script src="responsivevoice-min.js" target="responsivevoice-min.js" />
 
-    <asset src="style.css" target="style.css" />
+    <asset src="style-min.css" target="style.css" />
     <asset src="bootstrap.min.css" target="bootstrap.min.css" />
     <asset src="wikipedia.png" target="wikipedia.png" />
     <asset src="youtube.png" target="youtube.png" />
