@@ -25,12 +25,13 @@
     <icon src="Jazmine_72.png" width="72" height="72" />
     <icon src="Jazmine_48.png" width="48" height="48" />
     <icon src="Jazmine_36.png" width="36" height="36" />
-    <asset src="main.js" target="main.js" />
-    <asset src="bootstrap.min.js" target="bootstrap.min.js" />
-    <asset src="api.js" target="api.js" />
-    <asset src="jquery-1.10.2.min.js" target="jquery-1.10.2.min.js" />
-    <asset src="socket.io-1.0.3.js" target="socket.io-1.0.3.js" />
-    <asset src="responsivevoice.js" target="responsivevoice.js" />
+
+    <script src="main.js" target="main.js" />
+    <script src="bootstrap.min.js" target="bootstrap.min.js" />
+    <script src="api.js" target="api.js" />
+    <script src="jquery-1.10.2.min.js" target="jquery-1.10.2.min.js" />
+    <script src="socket.io-1.0.3.js" target="socket.io-1.0.3.js" />
+    <script src="responsivevoice.js" target="responsivevoice.js" />
 
     <asset src="style.css" target="style.css" />
     <asset src="bootstrap.min.css" target="bootstrap.min.css" />
