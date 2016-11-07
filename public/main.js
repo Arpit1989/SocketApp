@@ -8,7 +8,7 @@ $(function() {
   ];
   // Initialize varibles
   //var $server = "http://jazmine.co.in:3000";
-  var $server = "http://localhost:3002";
+  var $server = "https://virtual-girl.herokuapp.com";
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
