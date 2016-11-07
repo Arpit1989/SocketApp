@@ -7,8 +7,8 @@ $(function() {
     '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
   ];
   // Initialize varibles
-  var $server = "http://52.10.37.93:3000";
-  //var $server = "http://localhost:3000";
+  //var $server = "http://jazmine.co.in:3000";
+  var $server = "http://localhost:3002";
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
@@ -29,8 +29,8 @@ $(function() {
   var lastTypingTime;
   var $currentInput ;
   var virtual_girl = 'Jazmine';
-  //var socket = io();
-  var socket = io.connect("http://52.10.37.93:8080");
+  var socket = io();
+  //var socket = io.connect("http://jazmine.co.in:8080");
 
 
   $myInput.change(function(){
@@ -103,7 +103,7 @@ $(function() {
   function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {
-      message += "there's 1 participant in "+ data.room;
+      message += "You are the only participant in "+ data.room+", You can try chating with Jazmine!";
     } else {
       message += "there are " + data.numUsers + " participants in "+ data.room;
     }
@@ -485,7 +485,8 @@ $(function() {
           socket.emit('add user', username);
 
       }else{
-          username = "Anonymous User "
+          $usernameInput = "Anonymous User ";
+          username = "Anonymous User ";
           $loginPage.fadeOut();
           $chatPage.show();
           $loginPage.off('click');

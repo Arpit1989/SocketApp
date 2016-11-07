@@ -17,7 +17,11 @@
 
     <preference name="permissions" value="none"/>
     <preference name="fullscreen" value="true" />
+
   <access origin="*" />
+
+  <plugin name="com.ququplay.websocket.websocket" spec="0.1.0" source="pgb" />
+
   <feature name="Geolocation">
     <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
   </feature>
