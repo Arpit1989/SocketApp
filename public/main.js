@@ -36,8 +36,7 @@ $(function() {
   $myInput.change(function(){
        $.ajax({
           url: $server,
-          dataType: 'jsonp',
-          jsonpCallback: 'jsonCallback',
+          dataType: 'json',
           crossDomain: true,
           data: {ques: $myInput.val()},
           success: (function( msg ) {
@@ -134,8 +133,7 @@ $(function() {
            if ((typeof message.match(/@/g) !== 'undefined') && (message.match(/@/g).length > 0)) {
                $.ajax({
                    url: $server,
-                   dataType: 'jsonp',
-                   jsonpCallback: 'jsonCallback',
+                   dataType: 'json',
                    crossDomain: true,
                    data: { ques: message.replace("@", "")},
                    success: (function( msg ) {
